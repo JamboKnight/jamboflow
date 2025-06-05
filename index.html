@@ -1,58 +1,167 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>JamboFlow</title>
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    <style>
-        body {
-            background-color: #fefaf1;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            color: #2c2c2c;
-            text-align: center;
-            padding: 0 20px;
-        }
-        h1 {
-            font-size: 3.8em;
-            color: #d4af37; /* Gold */
-            margin: 0;
-        }
-        .accent-line {
-            width: 80px;
-            height: 6px;
-            background: linear-gradient(to right, #ffcc00, #ff0000, #117733);
-            margin: 16px 0 24px 0;
-            border-radius: 3px;
-        }
-        p {
-            font-size: 1.3em;
-            max-width: 600px;
-            line-height: 1.6;
-            color: #444;
-        }
-        lottie-player {
-            margin-bottom: 20px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JamboFlow Concierge</title>
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <meta name="description" content="JamboFlow Concierge builds invisible automations that clean your inbox, streamline your business, and give you back your time.">
+  <meta property="og:title" content="JamboFlow Concierge">
+  <meta property="og:description" content="Human simplicity powered by invisible automation. Reclaim your time with JamboFlow.">
+  <meta property="og:image" content="https://jamboflow.com/og-image.jpg">
+  <meta property="og:url" content="https://jamboflow.com">
+  <meta name="twitter:card" content="summary_large_image">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #f9f9f9;
+      color: #1a1a1a;
+      line-height: 1.6;
+    }
+    header {
+      background: #fff;
+      padding: 2rem;
+      border-bottom: 1px solid #eaeaea;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+    header p {
+      font-size: 1.2rem;
+      color: #666;
+    }
+    .container {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    .cta {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+    .cta a {
+      background: #111;
+      color: #fff;
+      padding: 1rem 2rem;
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: 8px;
+    }
+    section {
+      margin-top: 4rem;
+    }
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+    .service-box {
+      background: #fff;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: #111;
+      color: #fff;
+      margin-top: 4rem;
+    }
+    .form-box {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    input[type="text"], input[type="email"] {
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    button {
+      margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      background: #0070f3;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0051aa;
+    }
+  </style>
 </head>
 <body>
-    <lottie-player
-        src="https://assets10.lottiefiles.com/packages/lf20_w51pcehl.json"
-        background="transparent"
-        speed="1"
-        style="width: 200px; height: 200px;"
-        loop
-        autoplay>
-    </lottie-player>
-    <h1>Jambo!</h1>
-    <div class="accent-line"></div>
-    <p>Welcome to the future of workflow clarity—where intelligent design meets seamless execution, and efficiency becomes your new competitive edge.</p>
+  <header>
+    <h1>JamboFlow Concierge</h1>
+    <p>Human Simplicity. Powered by Invisible Automation.</p>
+    <div class="cta">
+      <a href="#form">Request Your Concierge Setup</a>
+    </div>
+  </header>
+
+  <div class="container">
+    <section>
+      <h2>What We Do</h2>
+      <p>JamboFlow Concierge builds invisible automations that quietly clean your inbox, streamline your systems, and give you back the time to focus on what truly matters.</p>
+    </section>
+
+    <section>
+      <h2>Our Services</h2>
+      <div class="service-box">
+        <strong>Inbox Cleanup + Smart Filters</strong>
+        <p>Zero your inbox, archive mess, and install smart filters that keep it that way.</p>
+      </div>
+      <div class="service-box">
+        <strong>Lead Capture & Auto-Follow-Up System</strong>
+        <p>Capture leads and automatically follow up without lifting a finger.</p>
+      </div>
+      <div class="service-box">
+        <strong>Calendar + CRM Integration</strong>
+        <p>Sync meetings, contacts, and notes across platforms with automation.</p>
+      </div>
+      <div class="service-box">
+        <strong>Team SOP System in Notion</strong>
+        <p>Turn scattered tasks into organized, repeatable processes.</p>
+      </div>
+      <div class="service-box">
+        <strong>Welcome & Onboarding Bot</strong>
+        <p>Automate your new client onboarding with branded, professional flows.</p>
+      </div>
+    </section>
+
+    <section id="form">
+      <h2>Request Your Setup</h2>
+      <div class="form-box">
+        <form action="https://forms.zohopublic.com/infojamb1/form/JamboFlowConciergeRequest/formperma/ct8F7YW4ZHtRw_M7bPEDb57_vTZktztwDY29kHeekBA" method="POST">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="name" required>
+
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" required>
+
+          <label for="service">Which service are you most interested in?</label>
+          <input type="text" id="service" name="service">
+
+          <button type="submit">Submit Request</button>
+        </form>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 JamboFlow. All rights reserved.</p>
+  </footer>
 </body>
 </html>
