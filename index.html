@@ -21,8 +21,18 @@
       line-height: 1.6;
       padding: 0 1rem;
     }
+    .navbar {
+      width: 100%;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .navbar img {
+      height: 48px;
+    }
     header {
-      padding: 4rem 1rem 2rem;
+      padding: 2rem 1rem 2rem;
       text-align: center;
       animation: fadeIn 1.5s ease-in-out forwards;
       opacity: 0;
@@ -99,18 +109,41 @@
       color: #333;
     }
     footer {
+      background-color: #111;
+      color: #bbb;
       padding: 3rem 1rem;
       text-align: center;
-      color: #777;
       font-size: 0.9rem;
+    }
+    .footer-brand {
+      margin-bottom: 1rem;
+    }
+    .footer-links a {
+      color: #bbb;
+      text-decoration: none;
+      margin: 0 0.5rem;
+    }
+    .footer-language {
+      margin-top: 1rem;
+    }
+    .footer-language select {
+      padding: 0.3rem;
+      background-color: #222;
+      color: #fff;
+      border: 1px solid #444;
+      border-radius: 4px;
     }
   </style>
 </head>
 <body>
+  <div class="navbar">
+    <img src="JFLogo.png" alt="JamboFlow Logo">
+  </div>
+
   <header>
     <h1>Where Clarity Becomes Automatic</h1>
     <p>The world’s first Clarity-as-a-Service platform — powered by automation, built for teams that scale.</p>
-    <a href="https://forms.zohopublic.com/infojamb1/form/ClarityMatchRequest/formperma/mAaM956rjL93IYONp8tqdBL-tMFC2RdEM4v3ExH3op8" target="_blank">
+    <a href="clarity-match.html">
       <button class="cta-button">Get Instant Clarity</button>
     </a>
   </header>
@@ -139,7 +172,24 @@
   </section>
 
   <footer>
-    &copy; 2025 JamboFlow. All rights reserved. | Clarity-as-a-Service.
+    <div class="footer-brand">
+      &copy; 2025 JamboFlow LLC<br>
+      A Clarity Systems Company
+    </div>
+    <div class="footer-links">
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="#">Cookies</a>
+      <a href="mailto:support@jamboflow.com">Contact</a>
+    </div>
+    <div class="footer-language">
+      <label for="lang">Language:</label>
+      <select id="lang" name="lang">
+        <option value="en" selected>EN</option>
+        <option value="fr">FR</option>
+        <option value="es">ES</option>
+      </select>
+    </div>
   </footer>
 </body>
 </html>
