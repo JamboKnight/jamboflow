@@ -1,179 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>JamboFlow – Where Clarity Becomes Automatic</title>
-  <meta name="description" content="JamboFlow is the world's first Clarity-as-a-Service platform. Automate your inbox, calendar, SOPs, and onboarding — all in one place.">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      scroll-behavior: smooth;
-    }
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #fafafa;
-      color: #1a1a1a;
-      line-height: 1.6;
-      padding: 0 1rem;
-    }
-    .navbar {
-      width: 100%;
-      padding: 1rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .navbar img {
-      height: 100px;
-    }
-    header {
-      padding: 2rem 1rem 2rem;
-      text-align: center;
-      animation: fadeIn 1.5s ease-in-out forwards;
-      opacity: 0;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    header h1 {
-      font-size: 2.5rem;
-      font-weight: 700;
-    }
-    header p {
-      font-size: 1.2rem;
-      color: #555;
-      margin: 1rem auto;
-      max-width: 600px;
-    }
-    .cta-button {
-      background-color: #2e66f2;
-      color: white;
-      padding: 0.8rem 1.5rem;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      margin-top: 1rem;
-      cursor: pointer;
-      transition: background 0.3s, transform 0.3s;
-    }
-    .cta-button:hover {
-      background-color: #1f4ec9;
-      transform: translateY(-2px);
-    }
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      max-width: 1200px;
-      margin: 4rem auto;
-      padding: 0 1rem;
-    }
-    .product {
-      background: white;
-      border-radius: 12px;
-      padding: 2rem;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-      transition: transform 0.3s, box-shadow 0.3s;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeUp 1s ease-in-out forwards;
-    }
-    .product:nth-child(1) { animation-delay: 0.2s; }
-    .product:nth-child(2) { animation-delay: 0.4s; }
-    .product:nth-child(3) { animation-delay: 0.6s; }
-    .product:nth-child(4) { animation-delay: 0.8s; }
-    .product:nth-child(5) { animation-delay: 1s; }
-
-    @keyframes fadeUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .product:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.12);
-    }
-    .product h3 {
-      font-size: 1.25rem;
-      margin-bottom: 0.5rem;
-    }
-    .product p {
-      font-size: 0.95rem;
-      color: #333;
-    }
-    footer {
-      background-color: #111;
-      color: #bbb;
-      padding: 3rem 1rem;
-      text-align: center;
-      font-size: 0.9rem;
-    }
-    footer a {
-      color: #bbb;
-      text-decoration: none;
-      margin: 0 0.5rem;
-    }
-    .footer-language {
-      margin-top: 1rem;
-    }
-    .footer-language select {
-      padding: 0.3rem;
-      background-color: #222;
-      color: #fff;
-      border: 1px solid #444;
-      border-radius: 4px;
-    }
-  </style>
+  <meta name="description" content="JamboFlow is the world's first Clarity-as-a-Service platform. Automate your inbox, calendar, SOPs, and onboarding — all in one place." />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="JamboFlow – Where Clarity Becomes Automatic" />
+  <meta property="og:description" content="Clarity-as-a-Service for modern teams. Streamline your inbox, SOPs, calendar, and onboarding in one platform." />
+  <meta property="og:image" content="assets/og-image.png" />
+  <meta property="og:url" content="https://jamboflow.com/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="JamboFlow – Where Clarity Becomes Automatic" />
+  <meta name="twitter:description" content="Clarity-as-a-Service for modern teams. Streamline your inbox, SOPs, calendar, and onboarding in one platform." />
+  <meta name="twitter:image" content="assets/og-image.png" />
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="navbar">
-    <img src="JFLogo.png" alt="JamboFlow Logo">
-  </div>
+  <nav class="navbar" role="navigation" aria-label="Main Navigation">
+    <img src="assets/JFLogo.png" alt="JamboFlow Logo" loading="lazy" aria-label="JamboFlow homepage logo" />
+  </nav>
 
   <header>
     <h1>Where Clarity Becomes Automatic</h1>
     <p>The world’s first Clarity-as-a-Service platform — powered by automation, built for teams that scale.</p>
     <a href="clarity-match.html">
-      <button class="cta-button">Get Instant Clarity</button>
+      <button class="cta-button" aria-label="Get Instant Clarity">Get Instant Clarity</button>
     </a>
   </header>
 
-  <section class="products">
-    <div class="product">
-      <h3>📥 Inbox Clarity Kit</h3>
-      <p>Your inbox. Finally under control. VIPs rise to the top, noise disappears. Just open your inbox — it’s already sorted.</p>
-    </div>
-    <div class="product">
-      <h3>📬 AI Follow-Up Agent</h3>
-      <p>Follow-ups that never fall through the cracks. You paste a client message — it replies instantly with clarity and warmth.</p>
-    </div>
-    <div class="product">
-      <h3>📅 Time Clarity System</h3>
-      <p>Turn chaos into a calm calendar. Drop in your tasks — AI time-blocks your week to match your goals.</p>
-    </div>
-    <div class="product">
-      <h3>📘 SOP Clarity Board</h3>
-      <p>Answers before they’re even asked. Turn tasks into plug-and-play processes. Hosted in Notion or Trello — your pick.</p>
-    </div>
-    <div class="product">
-      <h3>👋 Welcome & Onboarding Flow</h3>
-      <p>First impressions? Fully handled. Automate onboarding emails, invites, and checklists. Sell once — JamboFlow handles the rest.</p>
-    </div>
-  </section>
+  <main class="products" aria-label="Product Highlights">
+    <div class="product"><h3>📥 Inbox Clarity Kit</h3><p>Your inbox. Finally under control. VIPs rise to the top, noise disappears. Just open your inbox — it’s already sorted.</p></div>
+    <div class="product"><h3>📬 AI Follow-Up Agent</h3><p>Follow-ups that never fall through the cracks. You paste a client message — it replies instantly with clarity and warmth.</p></div>
+    <div class="product"><h3>📅 Time Clarity System</h3><p>Turn chaos into a calm calendar. Drop in your tasks — AI time-blocks your week to match your goals.</p></div>
+    <div class="product"><h3>📘 SOP Clarity Board</h3><p>Answers before they’re even asked. Turn tasks into plug-and-play processes. Hosted in Notion or Trello — your pick.</p></div>
+    <div class="product"><h3>👋 Welcome & Onboarding Flow</h3><p>First impressions? Fully handled. Automate onboarding emails, invites, and checklists. Sell once — JamboFlow handles the rest.</p></div>
+  </main>
 
   <footer>
     <div class="footer-brand">
-      &copy; 2025 JamboFlow LLC<br>
+      &copy; 2025 JamboFlow LLC<br />
       A Clarity Systems Company
     </div>
-    <div class="footer-links">
+    <div class="footer-links" role="contentinfo">
       <a href="privacy.html">Privacy</a>
       <a href="terms.html">Terms</a>
       <a href="cookies.html">Cookies</a>
