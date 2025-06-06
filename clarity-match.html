@@ -12,22 +12,29 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      scroll-behavior: smooth;
     }
     body {
       font-family: 'Inter', sans-serif;
-      background-color: #f9f9f9;
+      background-color: #fefefe;
       color: #1a1a1a;
-      padding: 2rem;
+      padding: 0;
+      margin: 0;
     }
     .navbar {
+      background-color: #fff;
       width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding-bottom: 2rem;
+      padding: 1.5rem 2rem;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
     .navbar img {
-      height: 90px;
+      height: 100px;
     }
     .navbar a {
       color: #2e66f2;
@@ -36,30 +43,46 @@
     }
     .container {
       max-width: 960px;
-      margin: 0 auto;
+      margin: 3rem auto;
       padding: 2rem;
       background: white;
       border-radius: 12px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
     }
-    header {
+    .container p {
       text-align: center;
+      font-size: 1rem;
       margin-bottom: 2rem;
-    }
-    header h1 {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
+      color: #333;
     }
     iframe {
       width: 100%;
-      height: 700px;
+      height: 750px;
       border: none;
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
     }
     footer {
+      background-color: #111;
+      color: #bbb;
+      padding: 3rem 1rem;
       text-align: center;
-      font-size: 0.85rem;
-      color: #777;
-      margin-top: 3rem;
+      font-size: 0.9rem;
+    }
+    .footer-links a {
+      color: #bbb;
+      text-decoration: none;
+      margin: 0 0.5rem;
+    }
+    .footer-language {
+      margin-top: 1rem;
+    }
+    .footer-language select {
+      padding: 0.3rem;
+      background-color: #222;
+      color: #fff;
+      border: 1px solid #444;
+      border-radius: 4px;
     }
   </style>
 </head>
@@ -70,16 +93,29 @@
   </div>
 
   <div class="container">
-    <header>
-      <h1>Clarity Match Request</h1>
-      <p>Answer a few short questions and we’ll match you with the right JamboFlow automation system.</p>
-    </header>
-
+    <p>Answer a few short questions and we’ll match you with the right JamboFlow automation system.</p>
     <iframe src="https://forms.zohopublic.com/infojamb1/form/ClarityMatchRequest/formperma/mAaM956rjL93IYONp8tqdBL-tMFC2RdEM4v3ExH3op8"></iframe>
   </div>
 
   <footer>
-    &copy; 2025 JamboFlow LLC. All rights reserved. | Part of Clarity Systems Company
+    <div class="footer-brand">
+      &copy; 2025 JamboFlow LLC<br>
+      A Clarity Systems Company
+    </div>
+    <div class="footer-links">
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="cookies.html">Cookies</a>
+      <a href="mailto:support@jamboflow.com">Contact</a>
+    </div>
+    <div class="footer-language">
+      <label for="lang">Language:</label>
+      <select id="lang" name="lang">
+        <option value="en" selected>EN</option>
+        <option value="fr">FR</option>
+        <option value="es">ES</option>
+      </select>
+    </div>
   </footer>
 </body>
 </html>
