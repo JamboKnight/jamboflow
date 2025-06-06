@@ -6,11 +6,13 @@
   <title>JamboFlow – Where Clarity Becomes Automatic</title>
   <meta name="description" content="JamboFlow is the world's first Clarity-as-a-Service platform. Automate your inbox, calendar, SOPs, and onboarding — all in one place.">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      scroll-behavior: smooth;
     }
     body {
       font-family: 'Inter', sans-serif;
@@ -22,6 +24,12 @@
     header {
       padding: 4rem 1rem 2rem;
       text-align: center;
+      animation: fadeIn 1.5s ease-in-out forwards;
+      opacity: 0;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     header h1 {
       font-size: 2.5rem;
@@ -42,10 +50,11 @@
       font-size: 1rem;
       margin-top: 1rem;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: background 0.3s, transform 0.3s;
     }
     .cta-button:hover {
       background-color: #1f4ec9;
+      transform: translateY(-2px);
     }
     .products {
       display: grid;
@@ -60,10 +69,26 @@
       border-radius: 12px;
       padding: 2rem;
       box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-      transition: transform 0.3s;
+      transition: transform 0.3s, box-shadow 0.3s;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 1s ease-in-out forwards;
+    }
+    .product:nth-child(1) { animation-delay: 0.2s; }
+    .product:nth-child(2) { animation-delay: 0.4s; }
+    .product:nth-child(3) { animation-delay: 0.6s; }
+    .product:nth-child(4) { animation-delay: 0.8s; }
+    .product:nth-child(5) { animation-delay: 1s; }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
     .product:hover {
       transform: translateY(-6px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.12);
     }
     .product h3 {
       font-size: 1.25rem;
