@@ -1,65 +1,120 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>JamboFlow — Where Clarity Becomes Automatic</title>
-    <meta name="description" content="JamboFlow is the Clarity-as-a-Service platform helping people and teams automate intelligently, regain focus, and scale what matters.">
-    <meta property="og:title" content="JamboFlow — Where Clarity Becomes Automatic">
-    <meta property="og:description" content="Start your clarity journey and let automation think for you.">
-    <meta property="og:image" content="https://jamboflow.com/assets/opengraph.jpg">
-    <meta property="og:url" content="https://jamboflow.com">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="/favicon.png">
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #fefaf6;
-            color: #2c2c2c;
-            text-align: center;
-        }
-        header {
-            padding: 4rem 1rem 2rem;
-        }
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 0.5rem;
-        }
-        p {
-            font-size: 1.25rem;
-            margin-bottom: 2rem;
-        }
-        .form-section {
-            padding: 2rem 1rem;
-            background-color: #ffffff;
-            border-top: 2px solid #d4af37;
-        }
-        iframe {
-            width: 100%;
-            height: 700px;
-            border: none;
-        }
-        footer {
-            padding: 2rem;
-            font-size: 0.9rem;
-            color: #888;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JamboFlow – Where Clarity Becomes Automatic</title>
+  <meta name="description" content="JamboFlow is the world's first Clarity-as-a-Service platform. Automate your inbox, calendar, SOPs, and onboarding — all in one place.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #fafafa;
+      color: #1a1a1a;
+      line-height: 1.6;
+      padding: 0 1rem;
+    }
+    header {
+      padding: 4rem 1rem 2rem;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+    header p {
+      font-size: 1.2rem;
+      color: #555;
+      margin: 1rem auto;
+      max-width: 600px;
+    }
+    .cta-button {
+      background-color: #2e66f2;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-top: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .cta-button:hover {
+      background-color: #1f4ec9;
+    }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 4rem auto;
+      padding: 0 1rem;
+    }
+    .product {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+      transition: transform 0.3s;
+    }
+    .product:hover {
+      transform: translateY(-6px);
+    }
+    .product h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+    .product p {
+      font-size: 0.95rem;
+      color: #333;
+    }
+    footer {
+      padding: 3rem 1rem;
+      text-align: center;
+      color: #777;
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Start Your Clarity Journey</h1>
-        <p><strong>JamboFlow is the Clarity-as-a-Service platform helping people and teams automate intelligently, regain focus, and scale what matters.</strong></p>
-        <p>We're not here to sell noise — we're here to deliver systems that think for you.<br>
-        Answer a few short questions and we’ll match you with the right tools and automation kits.<br>
-        No fluff. Just clarity — powered by JamboFlow.</p>
-    </header>
-    <section class="form-section">
-        <iframe aria-label='Clarity Match Request' src='https://forms.zohopublic.com/infojamb1/form/ClarityMatchRequest/formperma/mAaM956rjL93IYONp8tqdBL-tMFC2RdEM4v3ExH3op8'></iframe>
-    </section>
-    <footer>
-        &copy; 2025 JamboFlow. All rights reserved.
-    </footer>
+  <header>
+    <h1>Where Clarity Becomes Automatic</h1>
+    <p>The world’s first Clarity-as-a-Service platform — powered by automation, built for teams that scale.</p>
+    <a href="https://forms.zohopublic.com/infojamb1/form/ClarityMatchRequest/formperma/mAaM956rjL93IYONp8tqdBL-tMFC2RdEM4v3ExH3op8" target="_blank">
+      <button class="cta-button">Get Instant Clarity</button>
+    </a>
+  </header>
+
+  <section class="products">
+    <div class="product">
+      <h3>📥 Inbox Clarity Kit</h3>
+      <p>Your inbox. Finally under control. VIPs rise to the top, noise disappears. Just open your inbox — it’s already sorted.</p>
+    </div>
+    <div class="product">
+      <h3>📬 AI Follow-Up Agent</h3>
+      <p>Follow-ups that never fall through the cracks. You paste a client message — it replies instantly with clarity and warmth.</p>
+    </div>
+    <div class="product">
+      <h3>📅 Time Clarity System</h3>
+      <p>Turn chaos into a calm calendar. Drop in your tasks — AI time-blocks your week to match your goals.</p>
+    </div>
+    <div class="product">
+      <h3>📘 SOP Clarity Board</h3>
+      <p>Answers before they’re even asked. Turn tasks into plug-and-play processes. Hosted in Notion or Trello — your pick.</p>
+    </div>
+    <div class="product">
+      <h3>👋 Welcome & Onboarding Flow</h3>
+      <p>First impressions? Fully handled. Automate onboarding emails, invites, and checklists. Sell once — JamboFlow handles the rest.</p>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 JamboFlow. All rights reserved. | Clarity-as-a-Service.
+  </footer>
 </body>
 </html>
