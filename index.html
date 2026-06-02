@@ -37,19 +37,23 @@
 
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-        /* overflow-x on html applies directly to the viewport — avoids the body
-           propagation quirk that creates a scroll container and clips text */
-        html { scroll-behavior: smooth; overflow-x: hidden; }
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Inter', sans-serif;
             background: var(--bg);
             color: var(--text);
             -webkit-font-smoothing: antialiased;
+            /* clip (not hidden) prevents horizontal scroll without creating a
+               scroll container — avoids the spec quirk that promotes overflow-y
+               to auto on html and causes GPU compositing to clip text descenders */
+            overflow-x: clip;
         }
 
-        /* Universal safeguard — no ancestor overflow can clip heading text */
-        h1, h2, h3 { overflow: visible; }
+        /* padding-bottom moves descender pixels inside the layout box so GPU-
+           composited ancestors (e.g. elements with CSS transform) always include
+           them in the composited bitmap — the root fix for Syne Bold descender clipping */
+        h1, h2, h3 { overflow: visible; padding-bottom: 0.15em; }
 
         /* ─────────────────────────────────────
            ANIMATIONS
