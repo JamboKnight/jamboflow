@@ -93,8 +93,9 @@
         h2 {
             font-family: 'Syne', sans-serif; font-weight: 800;
             font-size: clamp(2rem, 3.8vw, 3.1rem);
-            line-height: 1.07; letter-spacing: -.025em;
+            line-height: 1.12; letter-spacing: -.025em;
             color: var(--cream);
+            padding-bottom: .05em;
         }
         h2 em { color: var(--gold); font-style: normal; }
 
@@ -166,7 +167,7 @@
            HERO
         ───────────────────────────────────── */
         .hero-outer {
-            position: relative; overflow: hidden;
+            position: relative; overflow: clip;
             min-height: 100vh;
             display: flex; align-items: center;
         }
@@ -216,9 +217,11 @@
         .hero h1 {
             font-family: 'Syne', sans-serif; font-weight: 800;
             font-size: clamp(3.25rem, 6.8vw, 6.5rem);
-            line-height: 1.025; letter-spacing: -.03em;
+            line-height: 1.1; letter-spacing: -.03em;
             color: var(--cream);
             max-width: 760px;
+            /* padding-bottom gives descenders (p, y, g) breathing room at large sizes */
+            padding-bottom: .1em;
             margin-bottom: 1.875rem;
         }
         .hero h1 em { color: var(--gold); font-style: normal; }
@@ -344,7 +347,7 @@
         /* ─────────────────────────────────────
            CAPABILITIES
         ───────────────────────────────────── */
-        .cap-section { background: var(--bg); padding: 100px 2rem; }
+        .cap-section { background: var(--bg); padding: 100px 2rem 52px; }
         .cap-inner { max-width: var(--max); margin: 0 auto; }
 
         .cap-rows { margin-top: 3.75rem; }
@@ -391,22 +394,21 @@
 
         .cap-covers {
             padding-top: .25rem;
+            display: flex; flex-wrap: wrap; align-content: flex-start; gap: .4rem;
         }
         .cap-covers-label {
+            flex-basis: 100%;
             font-size: .64rem; font-weight: 500; letter-spacing: .14em;
             text-transform: uppercase; color: var(--muted); opacity: .5;
-            margin-bottom: .75rem;
+            margin-bottom: .35rem;
         }
         .cap-tag {
-            display: flex; align-items: center; gap: .5rem;
-            font-size: .78rem; color: var(--muted); line-height: 1;
-            margin-bottom: .5rem;
-        }
-        .cap-tag::before {
-            content: '';
-            display: block; width: 4px; height: 4px;
-            background: var(--gold); opacity: .4;
-            border-radius: 50%; flex-shrink: 0;
+            display: inline-block;
+            font-size: .7rem; letter-spacing: .03em;
+            color: var(--muted);
+            border: 1px solid var(--border);
+            padding: .22rem .62rem; border-radius: 2px;
+            line-height: 1.5;
         }
 
         /* ─────────────────────────────────────
@@ -484,13 +486,13 @@
             gap: 2rem;
         }
         .moment-marker {
-            padding-top: 1.25rem;
-            border-top: 1px solid var(--gold-line);
+            padding-top: 1.5rem;
+            border-top: 2px solid rgba(201,150,58,0.55);
         }
         .moment-marker p {
-            font-family: 'Syne', sans-serif; font-weight: 600;
-            font-size: .95rem; color: var(--cream);
-            line-height: 1.4;
+            font-family: 'Syne', sans-serif; font-weight: 700;
+            font-size: 1.05rem; color: var(--cream);
+            line-height: 1.45; letter-spacing: -.01em;
         }
 
         /* ─────────────────────────────────────
@@ -498,15 +500,15 @@
         ───────────────────────────────────── */
         .start-section {
             background: var(--surface);
-            padding: 120px 2rem;
-            position: relative; overflow: hidden;
+            padding: 88px 2rem;
+            position: relative; overflow: clip;
         }
         .start-section::before {
             content: '';
             position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 900px; height: 400px; pointer-events: none;
-            background: radial-gradient(ellipse at center, rgba(201,150,58,.055) 0%, transparent 65%);
+            width: 1000px; height: 500px; pointer-events: none;
+            background: radial-gradient(ellipse at center, rgba(201,150,58,.09) 0%, rgba(201,150,58,.03) 40%, transparent 68%);
         }
         .start-inner {
             max-width: var(--max); margin: 0 auto;
@@ -541,8 +543,9 @@
         }
         .footer-logo em { color: var(--gold); font-style: normal; }
         .footer-tagline {
-            font-size: .72rem; color: var(--muted);
-            margin-top: .3rem; letter-spacing: .03em;
+            font-family: 'Syne', sans-serif; font-weight: 500;
+            font-size: .84rem; color: var(--text);
+            margin-top: .4rem; letter-spacing: .04em;
         }
 
         .footer-links { display: flex; gap: 2rem; list-style: none; }
@@ -871,7 +874,8 @@
         <p class="eyebrow reveal">Start</p>
         <h2 class="reveal">The first conversation<br>costs nothing.</h2>
         <p class="start-sub reveal">Thirty minutes. We'll map your operation and identify where the right system would make the most impact — no pitch, no pressure, no obligation.</p>
-        <a href="mailto:hello@jamboflow.com" class="btn-primary reveal">
+        <!-- TODO: Replace # with your Calendly or Tally booking link e.g. https://calendly.com/jamboflow/discovery -->
+        <a href="#" class="btn-primary reveal">
             Start a conversation <span class="arr">→</span>
         </a>
 
