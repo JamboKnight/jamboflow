@@ -3,35 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JamboFlow — Done-For-You Business Automation</title>
-    <meta name="description" content="JamboFlow builds custom automation systems for small businesses. We handle lead follow-up, client onboarding, and operations — so you can focus on growth.">
-    <meta property="og:title" content="JamboFlow — Done-For-You Business Automation">
-    <meta property="og:description" content="We automate the work that eats your day. Custom systems for small businesses.">
+    <title>JamboFlow — Systems Architecture for Ambitious Businesses</title>
+    <meta name="description" content="JamboFlow builds systems that go all the way to the bottom of the problem. No ceilings. No workarounds. No half-measures.">
+    <meta property="og:title" content="JamboFlow">
+    <meta property="og:description" content="We go all the way to the bottom of the problem.">
     <meta property="og:image" content="assets/og-image.png">
     <meta property="og:type" content="website">
     <link rel="icon" href="assets/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
     <style>
+        /* ─────────────────────────────────────
+           TOKENS
+        ───────────────────────────────────── */
         :root {
-            --bg:           #070707;
-            --surface:      #101010;
-            --surface-2:    #181818;
-            --gold:         #C9963A;
-            --gold-light:   #E0AC4E;
-            --gold-pale:    rgba(201,150,58,0.10);
-            --gold-border:  rgba(201,150,58,0.28);
-            --cream:        #F2ECE3;
-            --text:         #EDE8E0;
-            --muted:        #6E6A63;
-            --border:       rgba(255,255,255,0.07);
-            --radius:       4px;
-            --max:          1160px;
+            --bg:        #060606;
+            --surface:   #0D0D0D;
+            --surface-2: #151515;
+            --gold:      #C9963A;
+            --gold-hi:   #DDA94E;
+            --gold-dim:  rgba(201,150,58,0.10);
+            --gold-line: rgba(201,150,58,0.22);
+            --gold-left: rgba(201,150,58,0.35);
+            --cream:     #F0EAE0;
+            --text:      #EAE4DB;
+            --muted:     #5E5A54;
+            --border:    rgba(255,255,255,0.055);
+            --max:       1160px;
+            --r:         3px;
         }
 
-        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
 
         body {
@@ -42,668 +46,839 @@
             overflow-x: hidden;
         }
 
-        /* ── GEO DIVIDER ── */
-        .geo-rule {
-            width: 100%;
-            height: 1px;
-            background: repeating-linear-gradient(
-                90deg,
-                var(--gold) 0, var(--gold) 6px,
-                transparent 6px, transparent 14px,
-                rgba(201,150,58,.4) 14px, rgba(201,150,58,.4) 18px,
-                transparent 18px, transparent 28px
-            );
-            opacity: .35;
+        /* ─────────────────────────────────────
+           ANIMATIONS
+        ───────────────────────────────────── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(22px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes lineGrow {
+            from { transform: scaleY(0); opacity: 0; }
+            to   { transform: scaleY(1); opacity: 1; }
+        }
+        @keyframes geoPulse {
+            0%, 100% { opacity: .055; transform: scale(1); }
+            50%      { opacity: .085; transform: scale(1.025); }
         }
 
-        /* ── NAV ── */
-        nav {
-            position: fixed; top:0; left:0; right:0; z-index:200;
-            height: 64px;
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 0 2rem;
-            background: rgba(7,7,7,.88);
-            backdrop-filter: blur(18px);
-            border-bottom: 1px solid var(--border);
+        .e1 { animation: fadeUp .60s cubic-bezier(.22,1,.36,1) both; animation-delay: .06s; }
+        .e2 { animation: fadeUp .70s cubic-bezier(.22,1,.36,1) both; animation-delay: .20s; }
+        .e3 { animation: fadeUp .70s cubic-bezier(.22,1,.36,1) both; animation-delay: .36s; }
+        .e4 { animation: fadeUp .70s cubic-bezier(.22,1,.36,1) both; animation-delay: .50s; }
+        .e5 { animation: fadeUp .65s cubic-bezier(.22,1,.36,1) both; animation-delay: .64s; }
+        .eline {
+            animation: lineGrow .9s cubic-bezier(.22,1,.36,1) both;
+            animation-delay: .3s;
+            transform-origin: top center;
         }
 
-        .logo {
-            font-family: 'Syne', sans-serif;
-            font-weight: 800; font-size: 1.15rem;
-            letter-spacing: .04em;
-            color: var(--cream); text-decoration: none;
-        }
-        .logo em { color: var(--gold); font-style: normal; }
-
-        .nav-links {
-            display: flex; align-items: center; gap: 2.25rem; list-style: none;
-        }
-        .nav-links a {
-            font-size: .84rem; color: var(--muted);
-            text-decoration: none; letter-spacing: .03em;
-            transition: color .2s;
-        }
-        .nav-links a:hover { color: var(--cream); }
-
-        .nav-cta {
-            font-family: 'Syne', sans-serif; font-weight: 600; font-size: .84rem;
-            background: var(--gold); color: var(--bg) !important;
-            padding: .55rem 1.35rem; border-radius: var(--radius);
-            transition: background .2s;
-        }
-        .nav-cta:hover { background: var(--gold-light) !important; }
-
-        .nav-mobile-cta {
-            display: none;
-            font-family: 'Syne', sans-serif; font-weight: 600; font-size: .84rem;
-            background: var(--gold); color: var(--bg);
-            padding: .55rem 1.25rem; border-radius: var(--radius);
-            text-decoration: none;
-        }
-
-        /* ── LAYOUT ── */
+        /* ─────────────────────────────────────
+           SHARED LAYOUT
+        ───────────────────────────────────── */
         .container { max-width: var(--max); margin: 0 auto; }
-        section { padding: 96px 2rem; }
+
+        section { padding: 100px 2rem; }
 
         .eyebrow {
             display: inline-flex; align-items: center; gap: .5rem;
-            font-size: .7rem; font-weight: 500;
-            letter-spacing: .16em; text-transform: uppercase;
-            color: var(--gold); margin-bottom: 1.25rem;
+            font-size: .67rem; font-weight: 500;
+            letter-spacing: .18em; text-transform: uppercase;
+            color: var(--gold); margin-bottom: 1.875rem;
         }
         .eyebrow::before {
-            content:''; display:block; width:20px; height:1px; background: var(--gold);
+            content: ''; display: block; width: 22px; height: 1px; background: var(--gold);
         }
-        .eyebrow-center { justify-content: center; }
 
         h2 {
             font-family: 'Syne', sans-serif; font-weight: 800;
             font-size: clamp(2rem, 3.8vw, 3.1rem);
-            line-height: 1.08; letter-spacing: -.025em;
+            line-height: 1.07; letter-spacing: -.025em;
             color: var(--cream);
         }
         h2 em { color: var(--gold); font-style: normal; }
 
         .section-sub {
-            font-size: 1.025rem; color: var(--muted);
-            line-height: 1.72; max-width: 500px;
-            margin-top: 1rem; margin-bottom: 3.5rem;
+            font-size: 1rem; font-weight: 300;
+            color: var(--muted); line-height: 1.78;
+            max-width: 480px; margin-top: 1rem; margin-bottom: 3.75rem;
         }
 
-        /* ── HERO ── */
-        .hero-wrap {
+        /* ─────────────────────────────────────
+           GEO DIVIDER
+        ───────────────────────────────────── */
+        .geo-rule {
+            width: 100%; height: 1px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--gold) 0, var(--gold) 5px,
+                transparent 5px, transparent 13px,
+                rgba(201,150,58,.3) 13px, rgba(201,150,58,.3) 16px,
+                transparent 16px, transparent 26px
+            );
+            opacity: .28;
+        }
+
+        /* ─────────────────────────────────────
+           NAV
+        ───────────────────────────────────── */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+            height: 60px;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 2rem;
+            background: rgba(6,6,6,.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-family: 'Syne', sans-serif; font-weight: 800;
+            font-size: 1.1rem; letter-spacing: .04em;
+            color: var(--cream); text-decoration: none;
+        }
+        .logo em { color: var(--gold); font-style: normal; }
+
+        .nav-links { display: flex; align-items: center; gap: 2.5rem; list-style: none; }
+        .nav-links a {
+            font-size: .81rem; color: var(--muted);
+            text-decoration: none; letter-spacing: .03em;
+            transition: color .16s;
+        }
+        .nav-links a:hover { color: var(--cream); }
+
+        .nav-start {
+            font-family: 'Syne', sans-serif; font-weight: 600;
+            background: var(--gold); color: var(--bg) !important;
+            padding: .48rem 1.2rem; border-radius: var(--r);
+            transition: background .16s;
+        }
+        .nav-start:hover { background: var(--gold-hi) !important; }
+
+        .mobile-start {
+            display: none;
+            font-family: 'Syne', sans-serif; font-weight: 600; font-size: .81rem;
+            background: var(--gold); color: var(--bg);
+            padding: .48rem 1.1rem; border-radius: var(--r); text-decoration: none;
+        }
+
+        /* ─────────────────────────────────────
+           HERO
+        ───────────────────────────────────── */
+        .hero-outer {
             position: relative; overflow: hidden;
+            min-height: 100vh;
+            display: flex; align-items: center;
         }
 
-        .hero-bg-glow {
-            position: absolute; top:-80px; right:-120px;
-            width:680px; height:680px; pointer-events:none;
-            background: radial-gradient(circle, rgba(201,150,58,.07) 0%, transparent 68%);
+        .hero-glow {
+            position: absolute; top: -80px; right: -80px;
+            width: 650px; height: 650px; pointer-events: none;
+            background: radial-gradient(circle at 65% 35%, rgba(201,150,58,.065) 0%, transparent 62%);
         }
 
-        /* Subtle African geometric pattern — top-right corner */
-        .hero-geo {
-            position: absolute; top:80px; right:0;
-            width: 340px; height: 340px;
-            opacity: .055; pointer-events: none;
+        .hero-pattern {
+            position: absolute; top: -20px; right: -20px;
+            width: 500px; height: 500px; pointer-events: none;
+            animation: geoPulse 14s ease-in-out infinite;
+        }
+
+        .hero-vline {
+            position: absolute; top: 0; bottom: 0;
+            left: calc(((100vw - var(--max)) / 2) + (var(--max) * 0.62));
+            width: 1px;
+            background: linear-gradient(to bottom,
+                transparent 0%,
+                rgba(201,150,58,.18) 18%,
+                rgba(201,150,58,.12) 72%,
+                transparent 100%
+            );
+            pointer-events: none;
         }
 
         .hero {
             max-width: var(--max); margin: 0 auto;
-            min-height: 100vh;
-            display: flex; flex-direction: column; justify-content: center;
-            padding: 120px 2rem 80px;
+            padding: 130px 2rem 90px;
+            position: relative; z-index: 1;
+            width: 100%;
         }
 
-        h1 {
-            font-family: 'Syne', sans-serif; font-weight: 800;
-            font-size: clamp(2.75rem, 5.8vw, 5.25rem);
-            line-height: 1.055; letter-spacing: -.025em;
-            color: var(--cream); max-width: 840px;
-            margin-bottom: 1.5rem;
+        .eyebrow-hero {
+            display: inline-flex; align-items: center; gap: .5rem;
+            font-size: .67rem; font-weight: 500;
+            letter-spacing: .18em; text-transform: uppercase;
+            color: var(--gold); margin-bottom: 1.875rem;
         }
-        h1 em { color: var(--gold); font-style: normal; }
+        .eyebrow-hero::before {
+            content: ''; display: block; width: 22px; height: 1px; background: var(--gold);
+        }
+
+        .hero h1 {
+            font-family: 'Syne', sans-serif; font-weight: 800;
+            font-size: clamp(3.25rem, 6.8vw, 6.5rem);
+            line-height: 1.025; letter-spacing: -.03em;
+            color: var(--cream);
+            max-width: 760px;
+            margin-bottom: 1.875rem;
+        }
+        .hero h1 em { color: var(--gold); font-style: normal; }
 
         .hero-sub {
-            font-size: clamp(.975rem, 1.4vw, 1.15rem);
-            color: var(--muted); max-width: 540px;
-            line-height: 1.72; margin-bottom: 2.25rem;
+            font-size: clamp(.95rem, 1.25vw, 1.075rem);
+            font-weight: 300; color: var(--muted);
+            max-width: 500px; line-height: 1.8;
+            margin-bottom: 2.5rem;
         }
 
-        .hero-actions {
-            display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;
-        }
+        .hero-actions { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
 
-        .btn {
-            display: inline-flex; align-items: center; gap: .45rem;
-            font-family: 'Syne', sans-serif; font-weight: 600; font-size: .975rem;
-            text-decoration: none; border-radius: var(--radius);
-            transition: background .2s, transform .15s, color .2s;
-        }
         .btn-primary {
+            display: inline-flex; align-items: center; gap: .45rem;
+            font-family: 'Syne', sans-serif; font-weight: 600; font-size: .93rem;
             background: var(--gold); color: var(--bg);
-            padding: .875rem 1.875rem;
+            padding: .875rem 1.875rem; border-radius: var(--r);
+            text-decoration: none;
+            transition: background .16s, transform .14s;
         }
-        .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+        .btn-primary:hover { background: var(--gold-hi); transform: translateY(-1px); }
+        .btn-primary .arr { display: inline-block; transition: transform .16s; }
+        .btn-primary:hover .arr { transform: translateX(3px); }
 
-        .btn-ghost {
-            color: var(--muted); padding: .875rem 0;
-            font-weight: 500; font-family: 'Inter', sans-serif; font-size: .925rem;
+        .btn-text {
+            font-size: .86rem; color: var(--muted); text-decoration: none;
+            display: inline-flex; align-items: center; gap: .35rem;
+            transition: color .16s;
         }
-        .btn-ghost:hover { color: var(--cream); }
-        .btn-ghost .arr { transition: transform .2s; }
-        .btn-ghost:hover .arr { transform: translateX(3px); }
+        .btn-text .arr { display: inline-block; transition: transform .16s; }
+        .btn-text:hover { color: var(--cream); }
+        .btn-text:hover .arr { transform: translateX(3px); }
 
-        .hero-stats {
-            display: flex; gap: 2.75rem; flex-wrap: wrap;
-            margin-top: 4.5rem; padding-top: 2rem;
+        .hero-diff {
+            display: flex; flex-wrap: wrap;
+            margin-top: 4.75rem; padding-top: 2rem;
             border-top: 1px solid var(--border);
         }
-        .stat-num {
+        .diff-item {
+            padding-right: 3rem; margin-right: 3rem;
+            border-right: 1px solid var(--border);
+        }
+        .diff-item:last-child { border-right: none; margin-right: 0; padding-right: 0; }
+        .diff-val {
             font-family: 'Syne', sans-serif; font-weight: 700;
-            font-size: 1.7rem; color: var(--cream);
+            font-size: 1.5rem; color: var(--cream); line-height: 1;
         }
-        .stat-num em { color: var(--gold); font-style: normal; }
-        .stat-label {
-            font-size: .775rem; color: var(--muted);
-            letter-spacing: .04em; margin-top: .15rem;
+        .diff-val em { color: var(--gold); font-style: normal; }
+        .diff-label {
+            font-size: .74rem; color: var(--muted);
+            margin-top: .3rem; line-height: 1.5; max-width: 180px;
         }
 
-        /* ── TRUST BAR ── */
-        .trust-bar {
-            background: var(--surface);
-            border-top: 1px solid var(--border);
+        /* ─────────────────────────────────────
+           THE STANDARD
+        ───────────────────────────────────── */
+        .standard-section { background: var(--surface); padding: 100px 2rem; }
+        .standard-inner { max-width: var(--max); margin: 0 auto; }
+
+        /* Blueprint callout with corner accents — the brand's signature mark */
+        .callout {
+            position: relative;
+            border: 1px solid var(--gold-line);
+            padding: 3rem 3.5rem;
+            max-width: 880px;
+            margin-bottom: 4rem;
+        }
+        .callout::before {
+            content: ''; position: absolute;
+            top: -2px; left: -2px;
+            width: 18px; height: 18px;
+            border-top: 2px solid var(--gold);
+            border-left: 2px solid var(--gold);
+        }
+        .callout::after {
+            content: ''; position: absolute;
+            bottom: -2px; right: -2px;
+            width: 18px; height: 18px;
+            border-bottom: 2px solid var(--gold);
+            border-right: 2px solid var(--gold);
+        }
+        .corner-tr {
+            position: absolute; top: -2px; right: -2px;
+            width: 18px; height: 18px;
+            border-top: 2px solid var(--gold);
+            border-right: 2px solid var(--gold);
+        }
+        .corner-bl {
+            position: absolute; bottom: -2px; left: -2px;
+            width: 18px; height: 18px;
+            border-bottom: 2px solid var(--gold);
+            border-left: 2px solid var(--gold);
+        }
+
+        .callout-label {
+            font-size: .64rem; font-weight: 500; letter-spacing: .2em; text-transform: uppercase;
+            color: var(--gold); opacity: .65; margin-bottom: 1.25rem;
+        }
+        .callout-quote {
+            font-family: 'Syne', sans-serif; font-weight: 700;
+            font-size: clamp(1.3rem, 2.2vw, 1.9rem);
+            line-height: 1.28; letter-spacing: -.015em; color: var(--cream);
+        }
+
+        .principles {
+            display: grid; grid-template-columns: repeat(3,1fr);
+            gap: 1px; background: var(--border);
+            border: 1px solid var(--border);
+        }
+        .principle {
+            background: var(--surface); padding: 2.25rem 2rem;
+            transition: background .2s;
+        }
+        .principle:hover { background: var(--surface-2); }
+        .principle-mark { width: 24px; height: 1px; background: var(--gold); margin-bottom: 1.1rem; }
+        .principle h3 {
+            font-family: 'Syne', sans-serif; font-weight: 700;
+            font-size: .95rem; color: var(--cream); margin-bottom: .5rem;
+        }
+        .principle p { font-size: .84rem; color: var(--muted); line-height: 1.65; }
+
+        /* ─────────────────────────────────────
+           CAPABILITIES
+        ───────────────────────────────────── */
+        .cap-section { background: var(--bg); padding: 100px 2rem; }
+        .cap-inner { max-width: var(--max); margin: 0 auto; }
+
+        .cap-rows { margin-top: 3.75rem; }
+
+        .cap-row {
+            display: grid;
+            grid-template-columns: 52px 1fr 220px;
+            gap: 2.5rem;
+            padding: 2.5rem 0;
             border-bottom: 1px solid var(--border);
-            padding: 22px 2rem;
+            align-items: start;
+            position: relative;
+            transition: background .18s;
         }
-        .trust-inner {
-            max-width: var(--max); margin: 0 auto;
-            display: flex; align-items: center; justify-content: space-between;
-            gap: 1.5rem; flex-wrap: wrap;
-        }
-        .trust-label {
-            font-size: .72rem; letter-spacing: .12em;
-            text-transform: uppercase; color: var(--muted); white-space: nowrap;
-        }
-        .trust-pills {
-            display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center;
-        }
-        .trust-pill {
-            display: flex; align-items: center; gap: .4rem;
-            font-size: .82rem; color: var(--muted);
-        }
-        .trust-dot {
-            width: 4px; height: 4px; border-radius: 50%;
-            background: var(--gold); flex-shrink: 0;
-        }
+        .cap-row:first-child { border-top: 1px solid var(--border); }
 
-        /* ── PAIN ── */
-        .pain-section { background: var(--surface); }
+        /* Gold left accent on hover — architectural detail */
+        .cap-row::before {
+            content: '';
+            position: absolute; top: 0; left: -2rem; bottom: 0;
+            width: 2px;
+            background: var(--gold);
+            opacity: 0;
+            transition: opacity .22s;
+        }
+        .cap-row:hover::before { opacity: 1; }
 
-        .pain-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
-            gap: 1px;
-            background: var(--border);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            overflow: hidden;
-        }
-        .pain-card {
-            background: var(--surface); padding: 2.25rem;
-            transition: background .22s;
-        }
-        .pain-card:hover { background: var(--surface-2); }
-        .pain-n {
-            font-family: 'Syne', sans-serif; font-size: .68rem;
-            font-weight: 700; letter-spacing: .12em;
-            color: var(--gold); opacity: .45; margin-bottom: .9rem;
-        }
-        .pain-card h3 {
-            font-family: 'Syne', sans-serif; font-weight: 700;
-            font-size: 1.015rem; color: var(--cream);
-            line-height: 1.3; margin-bottom: .55rem;
-        }
-        .pain-card p {
-            font-size: .875rem; color: var(--muted); line-height: 1.65;
-        }
-
-        /* ── SERVICES ── */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
-            gap: 1.4rem;
-        }
-        .service-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 2.4rem;
-            position: relative; overflow: hidden;
-            transition: border-color .25s, transform .2s;
-        }
-        .service-card:hover {
-            border-color: var(--gold-border);
-            transform: translateY(-3px);
-        }
-        .service-card.featured {
-            border-color: var(--gold-border);
-            background: linear-gradient(145deg, var(--surface) 0%, rgba(201,150,58,.05) 100%);
-        }
-        .badge {
-            position: absolute; top:1.2rem; right:1.2rem;
-            font-size: .62rem; font-weight: 600; letter-spacing: .1em;
-            text-transform: uppercase; color: var(--gold);
-            background: var(--gold-pale);
-            padding: .25rem .6rem; border-radius: 2px;
-        }
-        .service-icon {
-            width: 42px; height: 42px; background: var(--gold-pale);
-            border-radius: var(--radius); display: flex; align-items: center;
-            justify-content: center; font-size: 1.2rem; margin-bottom: 1.4rem;
-        }
-        .service-card h3 {
-            font-family: 'Syne', sans-serif; font-weight: 700;
-            font-size: 1.15rem; color: var(--cream);
-            line-height: 1.25; margin-bottom: .7rem;
-        }
-        .service-card p {
-            font-size: .88rem; color: var(--muted);
-            line-height: 1.65; margin-bottom: 1.6rem;
-        }
-        .tags { display: flex; flex-wrap: wrap; gap: .35rem; }
-        .tag {
-            font-size: .68rem; letter-spacing: .04em;
-            color: var(--muted); border: 1px solid var(--border);
-            padding: .22rem .58rem; border-radius: 2px;
-        }
-
-        /* ── PROCESS ── */
-        .process-section { background: var(--surface); }
-
-        .process-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
-        }
-        .process-step {
-            padding: 2.5rem 2rem; position: relative;
-        }
-        .process-step:not(:last-child)::after {
-            content:''; position: absolute;
-            top: 2.75rem; right:0;
-            width:1px; height:56px;
-            background: linear-gradient(to bottom, transparent, var(--gold), transparent);
-            opacity: .25;
-        }
-        .step-n {
+        .cap-n {
             font-family: 'Syne', sans-serif; font-weight: 800;
-            font-size: 2.25rem; color: var(--gold); opacity: .18;
-            line-height: 1; margin-bottom: .9rem;
-        }
-        .process-step h3 {
-            font-family: 'Syne', sans-serif; font-weight: 700;
-            font-size: .975rem; color: var(--cream); margin-bottom: .45rem;
-        }
-        .process-step p {
-            font-size: .855rem; color: var(--muted); line-height: 1.65;
+            font-size: 1rem; color: var(--gold); opacity: .22;
+            padding-top: .2rem;
+            letter-spacing: .04em;
         }
 
-        /* ── TESTIMONIALS ── */
-        .testi-grid {
+        .cap-body h3 {
+            font-family: 'Syne', sans-serif; font-weight: 700;
+            font-size: 1.075rem; color: var(--cream);
+            margin-bottom: .65rem; line-height: 1.25;
+        }
+        .cap-body p {
+            font-size: .875rem; color: var(--muted);
+            line-height: 1.72; max-width: 560px;
+        }
+
+        .cap-covers {
+            padding-top: .25rem;
+        }
+        .cap-covers-label {
+            font-size: .64rem; font-weight: 500; letter-spacing: .14em;
+            text-transform: uppercase; color: var(--muted); opacity: .5;
+            margin-bottom: .75rem;
+        }
+        .cap-tag {
+            display: flex; align-items: center; gap: .5rem;
+            font-size: .78rem; color: var(--muted); line-height: 1;
+            margin-bottom: .5rem;
+        }
+        .cap-tag::before {
+            content: '';
+            display: block; width: 4px; height: 4px;
+            background: var(--gold); opacity: .4;
+            border-radius: 50%; flex-shrink: 0;
+        }
+
+        /* ─────────────────────────────────────
+           EVIDENCE
+        ───────────────────────────────────── */
+        .evidence-section { background: var(--surface); padding: 100px 2rem; }
+        .evidence-inner { max-width: var(--max); margin: 0 auto; }
+
+        .evidence-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(290px,1fr));
-            gap: 1.4rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
         }
-        .testi-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 2rem;
-        }
-        .stars { color: var(--gold); font-size: .8rem; letter-spacing: .1em; margin-bottom: .875rem; }
-        .quote {
-            font-size: .9rem; color: var(--text);
-            line-height: 1.72; margin-bottom: 1.4rem; font-style: italic;
-        }
-        .author { display: flex; align-items: center; gap: .7rem; }
-        .avatar {
-            width: 34px; height: 34px; border-radius: 50%;
-            background: var(--gold-pale); border: 1px solid var(--gold-border);
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'Syne', sans-serif; font-weight: 700;
-            font-size: .7rem; color: var(--gold); flex-shrink: 0;
-        }
-        .author-name {
-            font-family: 'Syne', sans-serif; font-size: .82rem;
-            font-weight: 700; color: var(--cream);
-        }
-        .author-role { font-size: .72rem; color: var(--muted); }
 
-        /* ── CTA ── */
-        .cta-section {
-            text-align: center; padding: 120px 2rem;
+        .evidence-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-left: 2px solid var(--gold-left);
+            padding: 2.25rem 2rem;
+            display: flex; flex-direction: column;
+        }
+
+        .evidence-outcome {
+            font-family: 'Syne', sans-serif; font-weight: 800;
+            font-size: clamp(1.25rem, 2vw, 1.65rem);
+            line-height: 1.15; letter-spacing: -.02em;
+            color: var(--cream);
+            margin-bottom: .75rem;
+        }
+        .evidence-outcome em { color: var(--gold); font-style: normal; }
+
+        .evidence-context {
+            font-size: .78rem; color: var(--muted);
+            line-height: 1.55; margin-bottom: 1.5rem;
+        }
+
+        .evidence-divider {
+            width: 100%; height: 1px;
+            background: var(--border);
+            margin-bottom: 1.5rem;
+        }
+
+        .evidence-result {
+            font-size: .875rem; color: var(--text);
+            line-height: 1.72;
+            opacity: .75;
+            flex: 1;
+        }
+
+        /* ─────────────────────────────────────
+           CLIENT MOMENT
+        ───────────────────────────────────── */
+        .moment-section { background: var(--bg); padding: 100px 2rem; }
+        .moment-inner { max-width: var(--max); margin: 0 auto; }
+
+        .moment-inner h2 {
+            max-width: 720px;
+            margin-bottom: 1.75rem;
+        }
+
+        .moment-body {
+            font-size: clamp(.95rem, 1.2vw, 1.075rem);
+            font-weight: 300; color: var(--muted);
+            max-width: 600px; line-height: 1.85;
+            margin-bottom: 4rem;
+        }
+        /* The word "you" and "JamboFlow" gets slightly more presence */
+        .moment-body strong {
+            color: var(--text); font-weight: 400;
+        }
+
+        /* Three markers — gold top line, then statement */
+        .moment-markers {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+        .moment-marker {
+            padding-top: 1.25rem;
+            border-top: 1px solid var(--gold-line);
+        }
+        .moment-marker p {
+            font-family: 'Syne', sans-serif; font-weight: 600;
+            font-size: .95rem; color: var(--cream);
+            line-height: 1.4;
+        }
+
+        /* ─────────────────────────────────────
+           START / CTA
+        ───────────────────────────────────── */
+        .start-section {
+            background: var(--surface);
+            padding: 120px 2rem;
             position: relative; overflow: hidden;
         }
-        .cta-section::before {
-            content:''; position: absolute;
-            top:50%; left:50%; transform: translate(-50%,-50%);
-            width:900px; height:420px; pointer-events:none;
-            background: radial-gradient(ellipse at center, rgba(201,150,58,.065) 0%, transparent 68%);
+        .start-section::before {
+            content: '';
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 900px; height: 400px; pointer-events: none;
+            background: radial-gradient(ellipse at center, rgba(201,150,58,.055) 0%, transparent 65%);
         }
-        .cta-section h2 { max-width: 700px; margin: .875rem auto 1.1rem; }
-        .cta-section .section-sub { margin: 0 auto 2.25rem; text-align: center; }
+        .start-inner {
+            max-width: var(--max); margin: 0 auto;
+            position: relative; z-index: 1;
+        }
 
-        /* ── FOOTER ── */
+        .start-inner h2 { max-width: 640px; margin-bottom: 1.25rem; }
+        .start-sub {
+            font-size: 1rem; font-weight: 300; color: var(--muted);
+            max-width: 460px; line-height: 1.78; margin-bottom: 2.5rem;
+        }
+
+        /* ─────────────────────────────────────
+           FOOTER
+        ───────────────────────────────────── */
         footer {
-            padding: 2.75rem 2rem;
+            background: var(--bg);
+            padding: 3rem 2rem;
             border-top: 1px solid var(--border);
         }
         .footer-inner {
             max-width: var(--max); margin: 0 auto;
-            display: flex; align-items: center; justify-content: space-between;
-            flex-wrap: wrap; gap: 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            align-items: center; gap: 3rem;
         }
+
         .footer-logo {
             font-family: 'Syne', sans-serif; font-weight: 800;
-            font-size: .975rem; color: var(--cream); text-decoration: none;
+            font-size: 1rem; color: var(--cream); text-decoration: none;
+            display: block;
         }
         .footer-logo em { color: var(--gold); font-style: normal; }
-        .footer-tagline { font-size: .72rem; color: var(--muted); margin-top: .2rem; }
-        .footer-links { display: flex; gap: 1.75rem; list-style: none; }
+        .footer-tagline {
+            font-size: .72rem; color: var(--muted);
+            margin-top: .3rem; letter-spacing: .03em;
+        }
+
+        .footer-links { display: flex; gap: 2rem; list-style: none; }
         .footer-links a {
             font-size: .78rem; color: var(--muted);
-            text-decoration: none; transition: color .2s;
+            text-decoration: none; letter-spacing: .02em;
+            transition: color .16s;
         }
         .footer-links a:hover { color: var(--cream); }
-        .footer-copy { font-size: .72rem; color: var(--muted); }
 
-        /* ── REVEAL ANIMATION ── */
+        .footer-copy { font-size: .72rem; color: var(--muted); white-space: nowrap; }
+
+        /* ─────────────────────────────────────
+           SCROLL REVEAL
+        ───────────────────────────────────── */
         @media (prefers-reduced-motion: no-preference) {
             .reveal {
-                opacity: 0; transform: translateY(18px);
+                opacity: 0; transform: translateY(16px);
                 transition: opacity .55s ease, transform .55s ease;
             }
-            .reveal.in { opacity:1; transform:none; }
+            .reveal.in { opacity: 1; transform: none; }
+            .reveal-d1 { transition-delay: .08s; }
+            .reveal-d2 { transition-delay: .18s; }
+            .reveal-d3 { transition-delay: .28s; }
         }
 
-        /* ── MOBILE ── */
+        /* ─────────────────────────────────────
+           MOBILE
+        ───────────────────────────────────── */
+        @media (max-width: 960px) {
+            .evidence-grid { grid-template-columns: 1fr 1fr; }
+        }
+
         @media (max-width: 768px) {
             nav { padding: 0 1.25rem; }
             .nav-links { display: none; }
-            .nav-mobile-cta { display: inline-flex; }
+            .mobile-start { display: inline-flex; }
 
-            section { padding: 68px 1.25rem; }
-            .hero { padding: 96px 1.25rem 60px; }
+            .hero-vline { display: none; }
+            .hero-pattern { width: 280px; height: 280px; }
+            .hero { padding: 100px 1.25rem 60px; }
+            .hero-diff { gap: 0; flex-direction: column; }
+            .diff-item {
+                border-right: none; margin-right: 0; padding-right: 0;
+                border-bottom: 1px solid var(--border);
+                padding-bottom: 1.25rem; margin-bottom: 1.25rem;
+            }
+            .diff-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 
-            .hero-stats { gap: 1.75rem; margin-top: 3rem; }
+            section { padding: 70px 1.25rem; }
+            .standard-section, .cap-section, .evidence-section,
+            .moment-section, .start-section { padding: 70px 1.25rem; }
 
-            .process-step:not(:last-child)::after { display: none; }
-            .process-grid { grid-template-columns: 1fr 1fr; }
+            .callout { padding: 1.75rem 1.5rem; margin-bottom: 2rem; }
+            .principles { grid-template-columns: 1fr; }
 
-            .footer-inner { flex-direction: column; align-items: flex-start; }
-            .footer-links { flex-wrap: wrap; gap: 1rem; }
+            .cap-row { grid-template-columns: 40px 1fr; gap: 1.25rem; }
+            .cap-row::before { left: -1.25rem; }
+            .cap-covers { grid-column: 2; }
 
-            .trust-inner { flex-direction: column; align-items: flex-start; }
+            .evidence-grid { grid-template-columns: 1fr; }
 
-            .cta-section { padding: 80px 1.25rem; }
-        }
+            .moment-markers { grid-template-columns: 1fr; gap: 1.5rem; }
 
-        @media (max-width: 480px) {
-            .process-grid { grid-template-columns: 1fr; }
+            footer { padding: 2.5rem 1.25rem; }
+            .footer-inner { grid-template-columns: 1fr; gap: 1.75rem; }
         }
     </style>
 </head>
 <body>
 
-<!-- ── NAV ── -->
+<!-- ─────────────── NAV ─────────────── -->
 <nav>
     <a href="/" class="logo">Jambo<em>Flow</em></a>
     <ul class="nav-links">
-        <li><a href="#services">Services</a></li>
-        <li><a href="#process">How It Works</a></li>
-        <li><a href="#results">Results</a></li>
-        <li><a href="#book" class="nav-cta">Book a Call</a></li>
+        <li><a href="#capabilities">Capabilities</a></li>
+        <li><a href="#standard">The Standard</a></li>
+        <li><a href="#evidence">Evidence</a></li>
+        <li><a href="#start" class="nav-start">Start →</a></li>
     </ul>
-    <a href="#book" class="nav-mobile-cta">Book a Call</a>
+    <a href="#start" class="mobile-start">Start →</a>
 </nav>
 
-<!-- ── HERO ── -->
-<div class="hero-wrap">
-    <div class="hero-bg-glow" aria-hidden="true"></div>
+<!-- ─────────────── HERO ─────────────── -->
+<div class="hero-outer">
+    <div class="hero-glow" aria-hidden="true"></div>
 
-    <!-- African geometric pattern: diamonds within diamonds -->
-    <svg class="hero-geo" viewBox="0 0 340 340" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <svg class="hero-pattern" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs>
-            <pattern id="kanga" x="0" y="0" width="34" height="34" patternUnits="userSpaceOnUse">
-                <polygon points="17,2 32,17 17,32 2,17" fill="none" stroke="white" stroke-width="1"/>
-                <polygon points="17,9 25,17 17,25 9,17" fill="none" stroke="white" stroke-width=".6"/>
-                <circle cx="17" cy="17" r="1.5" fill="white" opacity=".5"/>
+            <pattern id="kanga" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+                <polygon points="20,2 38,20 20,38 2,20" fill="none" stroke="white" stroke-width="1.1"/>
+                <polygon points="20,10 30,20 20,30 10,20" fill="none" stroke="white" stroke-width=".55"/>
+                <circle cx="20" cy="20" r="1.6" fill="white" opacity=".38"/>
             </pattern>
-        </defs>
-        <rect width="340" height="340" fill="url(#kanga)"/>
-        <!-- fade mask -->
-        <defs>
-            <radialGradient id="fade" cx="100%" cy="0%" r="100%">
-                <stop offset="0%" stop-color="black" stop-opacity="0"/>
-                <stop offset="60%" stop-color="black" stop-opacity=".7"/>
+            <radialGradient id="pmask" cx="85%" cy="15%" r="80%">
+                <stop offset="0%"   stop-color="black" stop-opacity="0"/>
+                <stop offset="50%"  stop-color="black" stop-opacity=".55"/>
                 <stop offset="100%" stop-color="black" stop-opacity="1"/>
             </radialGradient>
         </defs>
-        <rect width="340" height="340" fill="url(#fade)"/>
+        <rect width="500" height="500" fill="url(#kanga)"/>
+        <rect width="500" height="500" fill="url(#pmask)"/>
     </svg>
 
-    <div class="hero container">
-        <p class="eyebrow">Done-For-You Business Automation</p>
-        <h1>We automate the work<br>that <em>eats</em> your day.</h1>
-        <p class="hero-sub">JamboFlow builds custom automation systems for small businesses — lead follow-up, client onboarding, operations, reporting. You focus on running your business. We wire up the rest.</p>
-        <div class="hero-actions">
-            <a href="#book" class="btn btn-primary">Book a Free Discovery Call <span>→</span></a>
-            <a href="#services" class="btn btn-ghost">See what we build <span class="arr">→</span></a>
-        </div>
-        <div class="hero-stats">
-            <div>
-                <p class="stat-num">12<em>hrs</em></p>
-                <p class="stat-label">Saved per client, per week</p>
-            </div>
-            <div>
-                <p class="stat-num">40<em>+</em></p>
-                <p class="stat-label">Small businesses automated</p>
-            </div>
-            <div>
-                <p class="stat-num">3<em>x</em></p>
-                <p class="stat-label">Faster lead response times</p>
-            </div>
-        </div>
-    </div>
-</div>
+    <div class="hero-vline eline" aria-hidden="true"></div>
 
-<!-- ── TRUST BAR ── -->
-<div class="trust-bar">
-    <div class="trust-inner">
-        <span class="trust-label">We build systems for</span>
-        <div class="trust-pills">
-            <div class="trust-pill"><span class="trust-dot"></span> Lead follow-up</div>
-            <div class="trust-pill"><span class="trust-dot"></span> Client onboarding</div>
-            <div class="trust-pill"><span class="trust-dot"></span> CRM & reporting</div>
-            <div class="trust-pill"><span class="trust-dot"></span> Marketing workflows</div>
-            <div class="trust-pill"><span class="trust-dot"></span> Operations</div>
+    <div class="hero">
+        <p class="eyebrow-hero e1">The JamboFlow Standard</p>
+
+        <h1 class="e2">
+            We go all the way<br>
+            to the <em>bottom</em><br>
+            of the problem.
+        </h1>
+
+        <p class="hero-sub e3">
+            Most solutions stop when the tool runs out of capability. JamboFlow doesn't. We assess your entire operation, design what it actually needs, and build it — until the problem is solved. Completely.
+        </p>
+
+        <div class="hero-actions e4">
+            <a href="#start" class="btn-primary">Start a conversation <span class="arr">→</span></a>
+            <a href="#capabilities" class="btn-text">See how we work <span class="arr">→</span></a>
+        </div>
+
+        <div class="hero-diff e5">
+            <div class="diff-item">
+                <p class="diff-val">Zero<em>.</em></p>
+                <p class="diff-label">Workarounds. Every system built to actually solve the problem.</p>
+            </div>
+            <div class="diff-item">
+                <p class="diff-val">No<em> ceiling.</em></p>
+                <p class="diff-label">When tools fall short, we build what the problem requires.</p>
+            </div>
+            <div class="diff-item">
+                <p class="diff-val">One<em> bar.</em></p>
+                <p class="diff-label">Does it solve the problem, completely? That's the only question.</p>
+            </div>
         </div>
     </div>
 </div>
 
 <div class="geo-rule"></div>
 
-<!-- ── PAIN ── -->
-<section class="pain-section" id="problem">
-    <div class="container">
-        <p class="eyebrow">Sound familiar?</p>
-        <h2>Manual work is the ceiling<br>your business keeps hitting.</h2>
-        <p class="section-sub">Most small businesses run on repetition — the same tasks, done by hand, every day. That's not growth. That's a grind.</p>
-        <div class="pain-grid">
-            <div class="pain-card reveal">
-                <p class="pain-n">01</p>
-                <h3>Following up with leads one by one</h3>
-                <p>Hot leads go cold while you're buried in everything else. A system would have followed up twice before you noticed.</p>
+<!-- ─────────────── THE STANDARD ─────────────── -->
+<section class="standard-section" id="standard">
+    <div class="standard-inner">
+
+        <div class="callout reveal">
+            <span class="corner-tr" aria-hidden="true"></span>
+            <span class="corner-bl" aria-hidden="true"></span>
+            <p class="callout-label">What we hold ourselves to</p>
+            <p class="callout-quote">
+                "Every engagement is held to one bar —<br>
+                does it actually solve the problem, completely?<br>
+                No half-measures. No workarounds dressed up as solutions."
+            </p>
+        </div>
+
+        <div class="principles">
+            <div class="principle reveal reveal-d1">
+                <div class="principle-mark"></div>
+                <h3>We assess the whole operation</h3>
+                <p>Not just the symptom you came in with. We find where the real friction lives — then we design for that.</p>
             </div>
-            <div class="pain-card reveal">
-                <p class="pain-n">02</p>
-                <h3>Onboarding clients through a mess of emails</h3>
-                <p>Your first impression is a chain of manual messages and forgotten attachments. First impressions set the tone — and yours could be automatic.</p>
+            <div class="principle reveal reveal-d2">
+                <div class="principle-mark"></div>
+                <h3>We build what the problem requires</h3>
+                <p>Tools, integrations, or custom logic — whatever it takes. No tool limitation becomes your limitation.</p>
             </div>
-            <div class="pain-card reveal">
-                <p class="pain-n">03</p>
-                <h3>Admin and reporting eating your Fridays</h3>
-                <p>Hours spent chasing numbers that should already be in your inbox every Monday morning, formatted and ready.</p>
+            <div class="principle reveal reveal-d3">
+                <div class="principle-mark"></div>
+                <h3>We don't stop until it works</h3>
+                <p>Completely. Not mostly. The engagement isn't done until the problem is gone.</p>
             </div>
-            <div class="pain-card reveal">
-                <p class="pain-n">04</p>
-                <h3>Paying for tools nobody fully uses</h3>
-                <p>You have the software. You just don't have time to connect it into something that actually works together.</p>
+        </div>
+
+    </div>
+</section>
+
+<div class="geo-rule"></div>
+
+<!-- ─────────────── CAPABILITIES ─────────────── -->
+<section class="cap-section" id="capabilities">
+    <div class="cap-inner">
+
+        <p class="eyebrow">Capabilities</p>
+        <h2>Not a menu.<br><em>A methodology.</em></h2>
+        <p class="section-sub">We don't offer packages. We assess the specific problem your operation has, then design and build the system that actually solves it.</p>
+
+        <div class="cap-rows">
+
+            <div class="cap-row reveal">
+                <p class="cap-n">01</p>
+                <div class="cap-body">
+                    <h3>Operational Diagnosis</h3>
+                    <p>Before we build a single thing, we read your operation. How work actually moves through your business. Where time disappears. Where decisions stall. Most engagements change significantly at this stage — because the presenting problem is rarely the real one.</p>
+                </div>
+                <div class="cap-covers">
+                    <p class="cap-covers-label">This covers</p>
+                    <p class="cap-tag">Process mapping</p>
+                    <p class="cap-tag">Tool inventory</p>
+                    <p class="cap-tag">Friction identification</p>
+                    <p class="cap-tag">Priority ranking</p>
+                </div>
             </div>
+
+            <div class="cap-row reveal">
+                <p class="cap-n">02</p>
+                <div class="cap-body">
+                    <h3>System Architecture</h3>
+                    <p>We design the solution before we build it. Not a template applied to your situation — a system designed for your specific operation. You see the blueprint. You understand the logic. Nothing is built until both of us are confident it solves the right problem.</p>
+                </div>
+                <div class="cap-covers">
+                    <p class="cap-covers-label">This produces</p>
+                    <p class="cap-tag">Architecture blueprint</p>
+                    <p class="cap-tag">Integration map</p>
+                    <p class="cap-tag">Build specification</p>
+                </div>
+            </div>
+
+            <div class="cap-row reveal">
+                <p class="cap-n">03</p>
+                <div class="cap-body">
+                    <h3>Build &amp; Integration</h3>
+                    <p>We build what the problem requires. That starts with the best tools available. When those tools reach their limit, we build the bridge. When no tool exists for what's needed, we build the tool. No platform ceiling becomes your ceiling.</p>
+                </div>
+                <div class="cap-covers">
+                    <p class="cap-covers-label">This includes</p>
+                    <p class="cap-tag">Platform configuration</p>
+                    <p class="cap-tag">API integration</p>
+                    <p class="cap-tag">Custom logic</p>
+                    <p class="cap-tag">End-to-end testing</p>
+                </div>
+            </div>
+
+            <div class="cap-row reveal">
+                <p class="cap-n">04</p>
+                <div class="cap-body">
+                    <h3>Deployment &amp; Continuity</h3>
+                    <p>We don't hand over a black box. You understand what you're running and how to operate it. We stay close — for questions, for changes, for the edge cases that surface after go-live. The system is yours. The support is ours.</p>
+                </div>
+                <div class="cap-covers">
+                    <p class="cap-covers-label">This includes</p>
+                    <p class="cap-tag">Live deployment</p>
+                    <p class="cap-tag">Training</p>
+                    <p class="cap-tag">Documentation</p>
+                    <p class="cap-tag">Ongoing support</p>
+                </div>
+            </div>
+
         </div>
     </div>
 </section>
 
 <div class="geo-rule"></div>
 
-<!-- ── SERVICES ── -->
-<section id="services">
-    <div class="container">
-        <p class="eyebrow">What We Build</p>
-        <h2>Custom systems. Not<br><em>generic</em> templates.</h2>
-        <p class="section-sub">Everything we build is designed around your business, your tools, and your goals — from scratch, every time.</p>
-        <div class="services-grid">
-            <div class="service-card reveal">
-                <div class="service-icon">⚡</div>
-                <h3>Lead Capture &amp; Follow-Up</h3>
-                <p>Every new lead gets an instant, personalised response. Sequences that nurture, qualify, and book — without you touching the keyboard.</p>
-                <div class="tags">
-                    <span class="tag">CRM Integration</span>
-                    <span class="tag">Email Sequences</span>
-                    <span class="tag">WhatsApp</span>
-                    <span class="tag">Lead Scoring</span>
-                </div>
+<!-- ─────────────── EVIDENCE ─────────────── -->
+<section class="evidence-section" id="evidence">
+    <div class="evidence-inner">
+
+        <p class="eyebrow">Evidence</p>
+        <h2>What the work<br><em>actually</em> does.</h2>
+        <p class="section-sub">Results from live engagements. No names until clients opt in — the outcomes speak clearly enough.</p>
+
+        <div class="evidence-grid">
+
+            <div class="evidence-card reveal reveal-d1">
+                <p class="evidence-outcome">4 days <em>→</em> 90 minutes.</p>
+                <p class="evidence-context">A service business losing work to competitors who responded faster. New leads were waiting four days for a reply.</p>
+                <div class="evidence-divider"></div>
+                <p class="evidence-result">The entire lead intake and follow-up sequence was rebuilt end-to-end — from first contact to booked call. The system responds in minutes. It has not missed a lead since launch.</p>
             </div>
-            <div class="service-card featured reveal">
-                <span class="badge">Most Popular</span>
-                <div class="service-icon">🏗</div>
-                <h3>Client Onboarding System</h3>
-                <p>From signed contract to fully onboarded client — automatically. Welcome emails, document collection, scheduling, and account setup handled in minutes, not days.</p>
-                <div class="tags">
-                    <span class="tag">Contracts</span>
-                    <span class="tag">Calendly</span>
-                    <span class="tag">Invoicing</span>
-                    <span class="tag">Welcome Flow</span>
-                </div>
+
+            <div class="evidence-card reveal reveal-d2">
+                <p class="evidence-outcome">3 hours <em>→</em> under 8 minutes.</p>
+                <p class="evidence-context">Every new client engagement required three-plus hours of manual setup — contracts, briefs, calendar coordination, account access.</p>
+                <div class="evidence-divider"></div>
+                <p class="evidence-result">Onboarding was rebuilt as a single automated flow triggered the moment a proposal is accepted. The team now spends those hours on the work itself.</p>
             </div>
-            <div class="service-card reveal">
-                <div class="service-icon">📊</div>
-                <h3>Operations &amp; Reporting</h3>
-                <p>Business data that finds you — not the other way around. Weekly dashboards, pipeline reports, and task automation delivered exactly when and where you need them.</p>
-                <div class="tags">
-                    <span class="tag">Reporting</span>
-                    <span class="tag">Slack / Email</span>
-                    <span class="tag">Dashboards</span>
-                    <span class="tag">Task Routing</span>
-                </div>
+
+            <div class="evidence-card reveal reveal-d3">
+                <p class="evidence-outcome">A process <em>three platforms</em> couldn't handle.</p>
+                <p class="evidence-context">A client needed to connect four separate systems in a sequence that no existing integration covered. Two previous solutions had been tried and abandoned.</p>
+                <div class="evidence-divider"></div>
+                <p class="evidence-result">We built the integration from the ground up. It has run continuously, without human input, since the day it launched. The client has not touched it.</p>
             </div>
+
         </div>
     </div>
 </section>
 
 <div class="geo-rule"></div>
 
-<!-- ── PROCESS ── -->
-<section class="process-section" id="process">
-    <div class="container">
-        <p class="eyebrow">How It Works</p>
-        <h2>Four steps to a business<br>that runs without you in the room.</h2>
-        <div class="process-grid">
-            <div class="process-step reveal">
-                <p class="step-n">01</p>
-                <h3>Discovery Call</h3>
-                <p>We learn your business — your tools, your workflows, your biggest bottlenecks. No assumptions.</p>
+<!-- ─────────────── CLIENT MOMENT ─────────────── -->
+<section class="moment-section">
+    <div class="moment-inner">
+
+        <p class="eyebrow">Who this is for</p>
+        <h2 class="reveal">You've outgrown the tools<br>that got you here.</h2>
+
+        <p class="moment-body reveal">
+            <strong>You built something real.</strong> The duct-tape held for longer than it should have. Now the friction is everywhere — in the manual steps you can't stop doing, the processes that live inside your head instead of inside a system, the tools that almost-but-don't-quite connect. <strong>You know something needs to change.</strong> You're not always sure exactly what to build. That's the specific moment <strong>JamboFlow is designed for.</strong>
+        </p>
+
+        <div class="moment-markers">
+            <div class="moment-marker reveal reveal-d1">
+                <p>Your operation has grown past what off-the-shelf tools can hold.</p>
             </div>
-            <div class="process-step reveal">
-                <p class="step-n">02</p>
-                <h3>System Blueprint</h3>
-                <p>We map your custom automation architecture and walk you through it before a single line is built.</p>
+            <div class="moment-marker reveal reveal-d2">
+                <p>You've already tried the obvious solutions. They've hit their limits.</p>
             </div>
-            <div class="process-step reveal">
-                <p class="step-n">03</p>
-                <h3>Build &amp; Test</h3>
-                <p>We build, stress-test, and refine. Every edge case handled. Nothing shipped until it works exactly as promised.</p>
-            </div>
-            <div class="process-step reveal">
-                <p class="step-n">04</p>
-                <h3>Handover &amp; Support</h3>
-                <p>Full training, documentation, and ongoing support. Your system is yours — and we stay close.</p>
+            <div class="moment-marker reveal reveal-d3">
+                <p>What you need now is architecture — not another automation template.</p>
             </div>
         </div>
+
     </div>
 </section>
 
 <div class="geo-rule"></div>
 
-<!-- ── RESULTS ── -->
-<section id="results">
-    <div class="container">
-        <p class="eyebrow">Results</p>
-        <h2>Small businesses that stopped<br>working <em>for</em> their business.</h2>
-        <p class="section-sub">Real systems. Real outcomes. Built for operators who are done doing things by hand.</p>
-        <div class="testi-grid">
-            <div class="testi-card reveal">
-                <p class="stars">★★★★★</p>
-                <p class="quote">"We were losing leads every week because nobody had time to follow up fast enough. JamboFlow built a system that responds within minutes. Our conversion rate went up immediately."</p>
-                <div class="author">
-                    <div class="avatar">SK</div>
-                    <div>
-                        <p class="author-name">Samira K.</p>
-                        <p class="author-role">Founder, Luxury Events Co.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="testi-card reveal">
-                <p class="stars">★★★★★</p>
-                <p class="quote">"Onboarding used to take me a full day per client. Now it's done before I wake up — contracts, payments, calendar. I got my Fridays back."</p>
-                <div class="author">
-                    <div class="avatar">TO</div>
-                    <div>
-                        <p class="author-name">Tunde O.</p>
-                        <p class="author-role">Director, Apex Consulting</p>
-                    </div>
-                </div>
-            </div>
-            <div class="testi-card reveal">
-                <p class="stars">★★★★★</p>
-                <p class="quote">"I had all the tools — I just had no idea how to connect them. JamboFlow built a reporting dashboard that runs itself. Genuinely changed how I manage the business."</p>
-                <div class="author">
-                    <div class="avatar">NB</div>
-                    <div>
-                        <p class="author-name">Nadia B.</p>
-                        <p class="author-role">CEO, Bloom Studio</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<!-- ─────────────── START / CTA ─────────────── -->
+<section class="start-section" id="start">
+    <div class="start-inner">
 
-<div class="geo-rule"></div>
-
-<!-- ── CTA ── -->
-<section class="cta-section" id="book">
-    <div class="container">
-        <p class="eyebrow eyebrow-center">Let's Build</p>
-        <h2>Your business deserves to run<br>like a system — not a sprint.</h2>
-        <p class="section-sub">Book a free 30-minute discovery call. We'll map out exactly where automation can save you the most time — no pitch, no pressure.</p>
-        <a href="mailto:hello@jamboflow.com" class="btn btn-primary" style="font-size:1.025rem; padding:1rem 2.1rem;">
-            Book Your Free Discovery Call <span>→</span>
+        <p class="eyebrow reveal">Start</p>
+        <h2 class="reveal">The first conversation<br>costs nothing.</h2>
+        <p class="start-sub reveal">Thirty minutes. We'll map your operation and identify where the right system would make the most impact — no pitch, no pressure, no obligation.</p>
+        <a href="mailto:hello@jamboflow.com" class="btn-primary reveal">
+            Start a conversation <span class="arr">→</span>
         </a>
+
     </div>
 </section>
 
-<!-- ── FOOTER ── -->
+<!-- ─────────────── FOOTER ─────────────── -->
 <footer>
     <div class="footer-inner">
         <div>
@@ -711,17 +886,16 @@
             <p class="footer-tagline">Jambo. From East Africa, for the world.</p>
         </div>
         <ul class="footer-links">
-            <li><a href="#services">Services</a></li>
-            <li><a href="#process">How It Works</a></li>
-            <li><a href="#results">Results</a></li>
-            <li><a href="#book">Book a Call</a></li>
+            <li><a href="#capabilities">Capabilities</a></li>
+            <li><a href="#standard">The Standard</a></li>
+            <li><a href="#evidence">Evidence</a></li>
+            <li><a href="#start">Start</a></li>
         </ul>
-        <p class="footer-copy">© 2026 JamboFlow. All rights reserved.</p>
+        <p class="footer-copy">© 2026 JamboFlow.</p>
     </div>
 </footer>
 
 <script>
-    // Scroll reveal
     const io = new IntersectionObserver(entries => {
         entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
     }, { threshold: 0.08 });
