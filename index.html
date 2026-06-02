@@ -36,15 +36,20 @@
         }
 
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+
+        /* overflow-x on html applies directly to the viewport — avoids the body
+           propagation quirk that creates a scroll container and clips text */
+        html { scroll-behavior: smooth; overflow-x: hidden; }
 
         body {
             font-family: 'Inter', sans-serif;
             background: var(--bg);
             color: var(--text);
             -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
         }
+
+        /* Universal safeguard — no ancestor overflow can clip heading text */
+        h1, h2, h3 { overflow: visible; }
 
         /* ─────────────────────────────────────
            ANIMATIONS
@@ -93,9 +98,8 @@
         h2 {
             font-family: 'Syne', sans-serif; font-weight: 800;
             font-size: clamp(2rem, 3.8vw, 3.1rem);
-            line-height: 1.12; letter-spacing: -.025em;
+            line-height: 1.2; letter-spacing: -.025em;
             color: var(--cream);
-            padding-bottom: .05em;
         }
         h2 em { color: var(--gold); font-style: normal; }
 
@@ -217,10 +221,9 @@
         .hero h1 {
             font-family: 'Syne', sans-serif; font-weight: 800;
             font-size: clamp(3.25rem, 6.8vw, 6.5rem);
-            line-height: 1.15; letter-spacing: -.03em;
+            line-height: 1.2; letter-spacing: -.03em;
             color: var(--cream);
             max-width: 760px;
-            padding-bottom: .15em;
             margin-bottom: 1.875rem;
         }
         .hero h1 em { color: var(--gold); font-style: normal; }
@@ -267,7 +270,7 @@
         .diff-item:last-child { border-right: none; margin-right: 0; padding-right: 0; }
         .diff-val {
             font-family: 'Syne', sans-serif; font-weight: 700;
-            font-size: 1.5rem; color: var(--cream); line-height: 1;
+            font-size: 1.5rem; color: var(--cream); line-height: 1.2;
         }
         .diff-val em { color: var(--gold); font-style: normal; }
         .diff-label {
@@ -323,7 +326,7 @@
         .callout-quote {
             font-family: 'Syne', sans-serif; font-weight: 700;
             font-size: clamp(1.3rem, 2.2vw, 1.9rem);
-            line-height: 1.28; letter-spacing: -.015em; color: var(--cream);
+            line-height: 1.35; letter-spacing: -.015em; color: var(--cream);
         }
 
         .principles {
@@ -433,7 +436,7 @@
         .evidence-outcome {
             font-family: 'Syne', sans-serif; font-weight: 800;
             font-size: clamp(1.25rem, 2vw, 1.65rem);
-            line-height: 1.15; letter-spacing: -.02em;
+            line-height: 1.2; letter-spacing: -.02em;
             color: var(--cream);
             margin-bottom: .75rem;
         }
@@ -500,7 +503,7 @@
         .start-section {
             background: var(--surface);
             padding: 88px 2rem;
-            position: relative; overflow: clip;
+            position: relative;
         }
         .start-section::before {
             content: '';
