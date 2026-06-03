@@ -10,6 +10,18 @@
     <meta property="og:image" content="assets/og-image.png">
     <meta property="og:type" content="website">
     <link rel="icon" href="assets/favicon.ico">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "JamboFlow",
+        "url": "https://jamboflow.com",
+        "description": "JamboFlow is a systems architecture firm for small businesses. We assess your entire operation, design what it actually needs, and build it — tools, integrations, or custom logic — until the problem is solved completely.",
+        "areaServed": "Worldwide",
+        "serviceType": "Business Automation and Systems Architecture"
+    }
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
@@ -29,7 +41,7 @@
             --gold-left: rgba(201,150,58,0.35);
             --cream:     #F0EAE0;
             --text:      #EAE4DB;
-            --muted:     #5E5A54;
+            --muted:     #908B84; /* meets WCAG AA 4.5:1 on all site backgrounds */
             --border:    rgba(255,255,255,0.055);
             --max:       1160px;
             --r:         3px;
@@ -319,12 +331,13 @@
 
         .callout-label {
             font-size: .64rem; font-weight: 500; letter-spacing: .2em; text-transform: uppercase;
-            color: var(--gold); opacity: .65; margin-bottom: 1.25rem;
+            color: var(--gold); margin-bottom: 1.25rem;
         }
         .callout-quote {
             font-family: 'DM Sans', sans-serif; font-weight: 700;
             font-size: clamp(1.3rem, 2.2vw, 1.9rem);
             line-height: 1.28; letter-spacing: -.015em; color: var(--cream);
+            padding-bottom: 0; /* reset h2 global padding since this element is now an h2 */
         }
 
         .principles {
@@ -399,7 +412,7 @@
         .cap-covers-label {
             flex-basis: 100%;
             font-size: .64rem; font-weight: 500; letter-spacing: .14em;
-            text-transform: uppercase; color: var(--muted); opacity: .5;
+            text-transform: uppercase; color: var(--muted);
             margin-bottom: .35rem;
         }
         .cap-tag {
@@ -488,7 +501,7 @@
         .practice-type {
             font-size: .64rem; font-weight: 500;
             letter-spacing: .14em; text-transform: uppercase;
-            color: var(--gold); opacity: .55;
+            color: var(--gold);
             padding-top: .3rem; line-height: 1.55;
         }
 
@@ -751,11 +764,11 @@
             <span class="corner-tr" aria-hidden="true"></span>
             <span class="corner-bl" aria-hidden="true"></span>
             <p class="callout-label">What we hold ourselves to</p>
-            <p class="callout-quote">
+            <h2 class="callout-quote">
                 "Every engagement is held to one bar —<br>
                 does it actually solve the problem, completely?<br>
                 No half-measures. No workarounds dressed up as solutions."
-            </p>
+            </h2>
         </div>
 
         <div class="principles">
