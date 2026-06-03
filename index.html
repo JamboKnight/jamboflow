@@ -459,6 +459,56 @@
         }
 
         /* ─────────────────────────────────────
+           IN PRACTICE
+        ───────────────────────────────────── */
+        .practice-section { background: var(--surface); padding: 100px 2rem; }
+        .practice-inner { max-width: var(--max); margin: 0 auto; }
+        .practice-list { margin-top: 3.75rem; }
+
+        .practice-item {
+            display: grid;
+            grid-template-columns: 148px 1fr;
+            gap: 3rem;
+            padding: 2.25rem 0;
+            border-bottom: 1px solid var(--border);
+            align-items: start;
+            position: relative;
+        }
+        .practice-item:first-child { border-top: 1px solid var(--border); }
+
+        /* Same left-accent hover as capability rows */
+        .practice-item::before {
+            content: '';
+            position: absolute; top: 0; left: -2rem; bottom: 0;
+            width: 2px; background: var(--gold);
+            opacity: 0; transition: opacity .22s;
+        }
+        .practice-item:hover::before { opacity: 1; }
+
+        .practice-type {
+            font-size: .64rem; font-weight: 500;
+            letter-spacing: .14em; text-transform: uppercase;
+            color: var(--gold); opacity: .55;
+            padding-top: .3rem; line-height: 1.55;
+        }
+
+        .practice-situation {
+            font-family: 'DM Sans', sans-serif; font-weight: 700;
+            font-size: 1.025rem; color: var(--cream);
+            line-height: 1.45; letter-spacing: -.01em;
+            margin-bottom: .7rem;
+        }
+
+        .practice-solution {
+            font-size: .875rem; color: var(--muted); line-height: 1.68;
+        }
+        .practice-arrow {
+            color: var(--gold); opacity: .75;
+            font-family: 'DM Sans', sans-serif; font-weight: 700;
+            margin-right: .3rem;
+        }
+
+        /* ─────────────────────────────────────
            CLIENT MOMENT
         ───────────────────────────────────── */
         .moment-section { background: var(--bg); padding: 100px 2rem; }
@@ -597,7 +647,11 @@
 
             section { padding: 70px 1.25rem; }
             .standard-section, .cap-section, .evidence-section,
-            .moment-section, .start-section { padding: 70px 1.25rem; }
+            .practice-section, .moment-section, .start-section { padding: 70px 1.25rem; }
+
+            .practice-item { grid-template-columns: 1fr; gap: .75rem; }
+            .practice-item::before { left: -1.25rem; }
+            .practice-type { padding-top: 0; }
 
             .callout { padding: 1.75rem 1.5rem; margin-bottom: 2rem; }
             .principles { grid-template-columns: 1fr; }
@@ -717,7 +771,7 @@
             </div>
             <div class="principle reveal reveal-d3">
                 <div class="principle-mark"></div>
-                <h3>We don't stop until it works</h3>
+                <h3>We don't call it done until it works</h3>
                 <p>Completely. Not mostly. The engagement isn't done until the problem is gone.</p>
             </div>
         </div>
@@ -831,6 +885,62 @@
                 <p class="evidence-context">A client needed to connect four separate systems in a sequence that no existing integration covered. Two previous solutions had been tried and abandoned.</p>
                 <div class="evidence-divider"></div>
                 <p class="evidence-result">We built the integration from the ground up. It has run continuously, without human input, since the day it launched. The client has not touched it.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<div class="geo-rule"></div>
+
+<!-- ─────────────── IN PRACTICE ─────────────── -->
+<section class="practice-section" id="practice">
+    <div class="practice-inner">
+
+        <p class="eyebrow">In Practice</p>
+        <h2>Every business has a<br>version of this problem.</h2>
+        <p class="section-sub">The specific details change. The pattern — manual work where a system should be — doesn't.</p>
+
+        <div class="practice-list">
+
+            <div class="practice-item reveal">
+                <p class="practice-type">Trades &amp;<br>Contractors</p>
+                <div>
+                    <p class="practice-situation">A roofing contractor was losing estimate jobs to faster-responding competitors. Their first reply was going out the next morning — sometimes two days later.</p>
+                    <p class="practice-solution"><span class="practice-arrow">→</span>Automated enquiry response and site-visit booking. Every new lead gets a reply within minutes and a calendar link — without anyone touching the keyboard.</p>
+                </div>
+            </div>
+
+            <div class="practice-item reveal">
+                <p class="practice-type">Professional<br>Practice</p>
+                <div>
+                    <p class="practice-situation">A physiotherapy clinic was spending 40 minutes per new patient on intake — manually emailing forms, chasing returns, then entering the data by hand.</p>
+                    <p class="practice-solution"><span class="practice-arrow">→</span>An intake flow triggered at the point of booking. Forms go out, responses come back, and the patient record is built before anyone walks through the door.</p>
+                </div>
+            </div>
+
+            <div class="practice-item reveal">
+                <p class="practice-type">E-Commerce</p>
+                <div>
+                    <p class="practice-situation">A DTC brand founder was manually compiling weekly performance numbers from Shopify, their email platform, and two ad accounts every Monday morning.</p>
+                    <p class="practice-solution"><span class="practice-arrow">→</span>A single automated report — every metric formatted and delivered to their inbox before 8am, every Monday, without touching a spreadsheet.</p>
+                </div>
+            </div>
+
+            <div class="practice-item reveal">
+                <p class="practice-type">Agency</p>
+                <div>
+                    <p class="practice-situation">A creative agency was onboarding every new client through a string of separately-sent emails, documents, Slack invitations, and calendar holds — all done by hand, one by one.</p>
+                    <p class="practice-solution"><span class="practice-arrow">→</span>One trigger: contract signed. Every welcome email, doc link, channel invite, and kickoff calendar hold runs automatically from that point forward.</p>
+                </div>
+            </div>
+
+            <div class="practice-item reveal">
+                <p class="practice-type">Service<br>Business</p>
+                <div>
+                    <p class="practice-situation">A personal training studio was following up with trial clients three days after their session — by which point most had already decided whether to continue.</p>
+                    <p class="practice-solution"><span class="practice-arrow">→</span>A post-session sequence timed to follow up when interest is highest, not when someone remembers to send it. Manual effort: zero.</p>
+                </div>
             </div>
 
         </div>
