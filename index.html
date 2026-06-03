@@ -43,7 +43,7 @@
             background: var(--bg);
             color: var(--text);
             -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
+            overflow-x: clip; /* clip, not hidden — hidden promotes overflow-y to auto, making body a scroll container that creates a compositing context which clips text */
         }
 
         /* Global descender fix: the CSS reset zeroes padding-bottom, placing Syne Bold
@@ -172,7 +172,7 @@
            HERO
         ───────────────────────────────────── */
         .hero-outer {
-            position: relative; overflow: hidden;
+            position: relative; overflow: clip; /* clip contains the SVG pattern without creating a scroll/compositing context */
             min-height: 100vh;
             display: flex; align-items: center;
         }
@@ -529,7 +529,7 @@
         .start-section {
             background: var(--surface);
             padding: 80px 2rem;
-            position: relative; overflow: hidden;
+            position: relative; overflow: clip; /* clip for the glow pseudo-element, without scroll-container side effects */
         }
         /* Glow raised to .12 for visibility against --surface background */
         .start-section::before {
