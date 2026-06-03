@@ -46,10 +46,12 @@
             overflow-x: clip; /* clip, not hidden — hidden promotes overflow-y to auto, making body a scroll container that creates a compositing context which clips text */
         }
 
-        /* Global descender fix: the CSS reset zeroes padding-bottom, placing Syne Bold
-           descenders outside the layout box. GPU compositing from .reveal's transform
-           clips to the layout box. This padding moves descenders inside it. */
-        h1, h2, h3 { padding-bottom: 0.15em; }
+        /* Syne Bold's g, y, p glyphs extend ~0.28–0.32em below baseline, exceeding
+           the font's declared hhea descent. padding-bottom moves those pixels inside
+           the layout box so they are always included in GPU compositing layer bounds.
+           Applied to every Syne display element — not just headings. 0.3em is the
+           minimum safe value for this font at all display sizes on this project. */
+        h1, h2, h3 { overflow: visible; padding-bottom: 0.3em; }
 
         /* ─────────────────────────────────────
            ANIMATIONS
@@ -274,8 +276,8 @@
         .diff-item:last-child { border-right: none; margin-right: 0; padding-right: 0; }
         .diff-val {
             font-family: 'Syne', sans-serif; font-weight: 700;
-            font-size: 1.5rem; color: var(--cream); line-height: 1;
-            padding-bottom: 0.15em; /* descender fix */
+            font-size: 1.5rem; color: var(--cream); line-height: 1.2;
+            padding-bottom: 0.3em;
         }
         .diff-val em { color: var(--gold); font-style: normal; }
         .diff-label {
@@ -332,8 +334,8 @@
         .callout-quote {
             font-family: 'Syne', sans-serif; font-weight: 700;
             font-size: clamp(1.3rem, 2.2vw, 1.9rem);
-            line-height: 1.28; letter-spacing: -.015em; color: var(--cream);
-            overflow: visible; /* descender fix */
+            line-height: 1.35; letter-spacing: -.015em; color: var(--cream);
+            overflow: visible; padding-bottom: 0.3em;
         }
 
         .principles {
@@ -458,10 +460,10 @@
         .evidence-outcome {
             font-family: 'Syne', sans-serif; font-weight: 800;
             font-size: clamp(1.25rem, 2vw, 1.65rem);
-            line-height: 1.15; letter-spacing: -.02em;
+            line-height: 1.2; letter-spacing: -.02em;
             color: var(--cream);
             margin-bottom: .75rem;
-            overflow: visible; /* descender fix */
+            overflow: visible; padding-bottom: 0.3em;
         }
         .evidence-outcome em { color: var(--gold); font-style: normal; }
 
