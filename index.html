@@ -43,22 +43,15 @@
             background: var(--bg);
             color: var(--text);
             -webkit-font-smoothing: antialiased;
-            overflow-x: clip; /* clip, not hidden — hidden promotes overflow-y to auto, making body a scroll container that creates a compositing context which clips text */
+            overflow-x: hidden;
         }
-
-        /* Syne Bold's g, y, p glyphs extend ~0.28–0.32em below baseline, exceeding
-           the font's declared hhea descent. padding-bottom moves those pixels inside
-           the layout box so they are always included in GPU compositing layer bounds.
-           Applied to every Syne display element — not just headings. 0.3em is the
-           minimum safe value for this font at all display sizes on this project. */
-        h1, h2, h3 { overflow: visible; padding-bottom: 0.3em; }
 
         /* ─────────────────────────────────────
            ANIMATIONS
         ───────────────────────────────────── */
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(22px); }
-            to   { opacity: 1; transform: none; } /* none drops the GPU layer; translateY(0) keeps it alive and clips overflow */
+            to   { opacity: 1; transform: translateY(0); }
         }
         @keyframes lineGrow {
             from { transform: scaleY(0); opacity: 0; }
@@ -100,9 +93,9 @@
         h2 {
             font-family: 'Syne', sans-serif; font-weight: 800;
             font-size: clamp(2rem, 3.8vw, 3.1rem);
-            line-height: 1.3; /* CLAUDE.md minimum */
-            letter-spacing: -.025em;
+            line-height: 1.12; letter-spacing: -.025em;
             color: var(--cream);
+            padding-bottom: .05em;
         }
         h2 em { color: var(--gold); font-style: normal; }
 
@@ -174,7 +167,7 @@
            HERO
         ───────────────────────────────────── */
         .hero-outer {
-            position: relative; overflow: clip; /* clip contains the SVG pattern without creating a scroll/compositing context */
+            position: relative;
             min-height: 100vh;
             display: flex; align-items: center;
         }
@@ -224,12 +217,12 @@
         .hero h1 {
             font-family: 'Syne', sans-serif; font-weight: 800;
             font-size: clamp(3.25rem, 6.8vw, 6.5rem);
-            line-height: 1.3; /* CLAUDE.md minimum — below 1.3 Syne Bold descenders clip at display sizes */
-            letter-spacing: -.03em;
+            line-height: 1.1; letter-spacing: -.03em;
             color: var(--cream);
             max-width: 760px;
+            /* padding-bottom gives descenders (p, y, g) breathing room at large sizes */
+            padding-bottom: .1em;
             margin-bottom: 1.875rem;
-            padding-bottom: 0.3em; /* more generous than global 0.15em — accounts for large clamp sizes */
         }
         .hero h1 em { color: var(--gold); font-style: normal; }
 
@@ -271,13 +264,11 @@
         .diff-item {
             padding-right: 3rem; margin-right: 3rem;
             border-right: 1px solid var(--border);
-            overflow: visible; /* descender fix: flex children */
         }
         .diff-item:last-child { border-right: none; margin-right: 0; padding-right: 0; }
         .diff-val {
             font-family: 'Syne', sans-serif; font-weight: 700;
-            font-size: 1.5rem; color: var(--cream); line-height: 1.2;
-            padding-bottom: 0.3em;
+            font-size: 1.5rem; color: var(--cream); line-height: 1;
         }
         .diff-val em { color: var(--gold); font-style: normal; }
         .diff-label {
@@ -291,14 +282,13 @@
         .standard-section { background: var(--surface); padding: 100px 2rem; }
         .standard-inner { max-width: var(--max); margin: 0 auto; }
 
-        /* Blueprint callout — the brand's signature mark */
+        /* Blueprint callout with corner accents — the brand's signature mark */
         .callout {
             position: relative;
             border: 1px solid var(--gold-line);
             padding: 3rem 3.5rem;
             max-width: 880px;
             margin-bottom: 4rem;
-            overflow: visible; /* descender fix */
         }
         .callout::before {
             content: ''; position: absolute;
@@ -334,8 +324,7 @@
         .callout-quote {
             font-family: 'Syne', sans-serif; font-weight: 700;
             font-size: clamp(1.3rem, 2.2vw, 1.9rem);
-            line-height: 1.35; letter-spacing: -.015em; color: var(--cream);
-            overflow: visible; padding-bottom: 0.3em;
+            line-height: 1.28; letter-spacing: -.015em; color: var(--cream);
         }
 
         .principles {
@@ -345,8 +334,6 @@
         }
         .principle {
             background: var(--surface); padding: 2.25rem 2rem;
-            overflow: visible; /* descender fix: grid child */
-            padding-bottom: calc(2rem + 0.25em); /* descender fix: extends layout box */
             transition: background .2s;
         }
         .principle:hover { background: var(--surface-2); }
@@ -354,14 +341,13 @@
         .principle h3 {
             font-family: 'Syne', sans-serif; font-weight: 700;
             font-size: .95rem; color: var(--cream); margin-bottom: .5rem;
-            overflow: visible; /* descender fix */
         }
         .principle p { font-size: .84rem; color: var(--muted); line-height: 1.65; }
 
         /* ─────────────────────────────────────
            CAPABILITIES
         ───────────────────────────────────── */
-        .cap-section { background: var(--bg); padding: 100px 2rem 60px; }
+        .cap-section { background: var(--bg); padding: 100px 2rem 52px; }
         .cap-inner { max-width: var(--max); margin: 0 auto; }
 
         .cap-rows { margin-top: 3.75rem; }
@@ -374,12 +360,11 @@
             border-bottom: 1px solid var(--border);
             align-items: start;
             position: relative;
-            overflow: visible; /* descender fix: grid container */
             transition: background .18s;
         }
         .cap-row:first-child { border-top: 1px solid var(--border); }
 
-        /* Gold left accent on hover */
+        /* Gold left accent on hover — architectural detail */
         .cap-row::before {
             content: '';
             position: absolute; top: 0; left: -2rem; bottom: 0;
@@ -397,16 +382,10 @@
             letter-spacing: .04em;
         }
 
-        /* descender fix: grid child with align-items: start collapses bottom edge */
-        .cap-body {
-            padding-bottom: 0.25em;
-            overflow: visible;
-        }
         .cap-body h3 {
             font-family: 'Syne', sans-serif; font-weight: 700;
             font-size: 1.075rem; color: var(--cream);
-            margin-bottom: .65rem; line-height: 1.3; /* CLAUDE.md minimum */
-            overflow: visible; /* descender fix */
+            margin-bottom: .65rem; line-height: 1.25;
         }
         .cap-body p {
             font-size: .875rem; color: var(--muted);
@@ -415,25 +394,21 @@
 
         .cap-covers {
             padding-top: .25rem;
-            overflow: visible; /* descender fix: grid child */
+            display: flex; flex-wrap: wrap; align-content: flex-start; gap: .4rem;
         }
         .cap-covers-label {
+            flex-basis: 100%;
             font-size: .64rem; font-weight: 500; letter-spacing: .14em;
             text-transform: uppercase; color: var(--muted); opacity: .5;
-            margin-bottom: .65rem;
-        }
-        /* Pill-style tags — no browser bullets, no pseudo-element dots */
-        .cap-pills {
-            display: flex; flex-wrap: wrap; gap: .35rem;
+            margin-bottom: .35rem;
         }
         .cap-tag {
-            font-size: .69rem; font-weight: 500; letter-spacing: .03em;
+            display: inline-block;
+            font-size: .7rem; letter-spacing: .03em;
             color: var(--muted);
             border: 1px solid var(--border);
-            background: rgba(255,255,255,0.02);
-            padding: .3rem .65rem;
-            border-radius: 2px;
-            white-space: nowrap;
+            padding: .22rem .62rem; border-radius: 2px;
+            line-height: 1.5;
         }
 
         /* ─────────────────────────────────────
@@ -454,16 +429,14 @@
             border-left: 2px solid var(--gold-left);
             padding: 2.25rem 2rem;
             display: flex; flex-direction: column;
-            overflow: visible; /* descender fix: grid child */
         }
 
         .evidence-outcome {
             font-family: 'Syne', sans-serif; font-weight: 800;
             font-size: clamp(1.25rem, 2vw, 1.65rem);
-            line-height: 1.2; letter-spacing: -.02em;
+            line-height: 1.15; letter-spacing: -.02em;
             color: var(--cream);
             margin-bottom: .75rem;
-            overflow: visible; padding-bottom: 0.3em;
         }
         .evidence-outcome em { color: var(--gold); font-style: normal; }
 
@@ -502,27 +475,24 @@
             max-width: 600px; line-height: 1.85;
             margin-bottom: 4rem;
         }
+        /* The word "you" and "JamboFlow" gets slightly more presence */
         .moment-body strong {
             color: var(--text); font-weight: 400;
         }
 
-        /* Three qualifying markers — these are the most important statements on the page.
-           High-contrast gold border + large Syne type ensure they read as conclusions,
-           not supporting copy. */
+        /* Three markers — gold top line, then statement */
         .moment-markers {
             display: grid; grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
         }
         .moment-marker {
             padding-top: 1.5rem;
-            border-top: 2px solid var(--gold); /* full-weight gold rule — not the dim variant */
-            overflow: visible; /* descender fix: grid child */
+            border-top: 2px solid rgba(201,150,58,0.55);
         }
         .moment-marker p {
             font-family: 'Syne', sans-serif; font-weight: 700;
-            font-size: 1.1rem; color: var(--cream);
-            line-height: 1.45;
-            padding-bottom: 0.15em; /* descender fix */
+            font-size: 1.05rem; color: var(--cream);
+            line-height: 1.45; letter-spacing: -.01em;
         }
 
         /* ─────────────────────────────────────
@@ -530,16 +500,15 @@
         ───────────────────────────────────── */
         .start-section {
             background: var(--surface);
-            padding: 80px 2rem;
-            position: relative; overflow: clip; /* clip for the glow pseudo-element, without scroll-container side effects */
+            padding: 88px 2rem;
+            position: relative; overflow: visible;
         }
-        /* Glow raised to .12 for visibility against --surface background */
         .start-section::before {
             content: '';
             position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 900px; height: 400px; pointer-events: none;
-            background: radial-gradient(ellipse at center, rgba(201,150,58,.12) 0%, transparent 65%);
+            width: 1000px; height: 500px; pointer-events: none;
+            background: radial-gradient(ellipse at center, rgba(201,150,58,.09) 0%, rgba(201,150,58,.03) 40%, transparent 68%);
         }
         .start-inner {
             max-width: var(--max); margin: 0 auto;
@@ -573,14 +542,10 @@
             display: block;
         }
         .footer-logo em { color: var(--gold); font-style: normal; }
-
-        /* Brand statement — not a footnote. Syne + uppercase + letter-spacing
-           signals intent; brighter color lifts it out of the muted range. */
         .footer-tagline {
-            font-family: 'Syne', sans-serif; font-weight: 600;
-            font-size: .75rem; letter-spacing: .12em; text-transform: uppercase;
-            color: rgba(240,234,224,.58);
-            margin-top: .45rem;
+            font-family: 'Syne', sans-serif; font-weight: 500;
+            font-size: .84rem; color: var(--text);
+            margin-top: .4rem; letter-spacing: .04em;
         }
 
         .footer-links { display: flex; gap: 2rem; list-style: none; }
@@ -633,7 +598,6 @@
             section { padding: 70px 1.25rem; }
             .standard-section, .cap-section, .evidence-section,
             .moment-section, .start-section { padding: 70px 1.25rem; }
-            .cap-section { padding-bottom: 40px; }
 
             .callout { padding: 1.75rem 1.5rem; margin-bottom: 2rem; }
             .principles { grid-template-columns: 1fr; }
@@ -781,12 +745,10 @@
                 </div>
                 <div class="cap-covers">
                     <p class="cap-covers-label">This covers</p>
-                    <div class="cap-pills">
-                        <span class="cap-tag">Process mapping</span>
-                        <span class="cap-tag">Tool inventory</span>
-                        <span class="cap-tag">Friction identification</span>
-                        <span class="cap-tag">Priority ranking</span>
-                    </div>
+                    <p class="cap-tag">Process mapping</p>
+                    <p class="cap-tag">Tool inventory</p>
+                    <p class="cap-tag">Friction identification</p>
+                    <p class="cap-tag">Priority ranking</p>
                 </div>
             </div>
 
@@ -798,11 +760,9 @@
                 </div>
                 <div class="cap-covers">
                     <p class="cap-covers-label">This produces</p>
-                    <div class="cap-pills">
-                        <span class="cap-tag">Architecture blueprint</span>
-                        <span class="cap-tag">Integration map</span>
-                        <span class="cap-tag">Build specification</span>
-                    </div>
+                    <p class="cap-tag">Architecture blueprint</p>
+                    <p class="cap-tag">Integration map</p>
+                    <p class="cap-tag">Build specification</p>
                 </div>
             </div>
 
@@ -814,12 +774,10 @@
                 </div>
                 <div class="cap-covers">
                     <p class="cap-covers-label">This includes</p>
-                    <div class="cap-pills">
-                        <span class="cap-tag">Platform configuration</span>
-                        <span class="cap-tag">API integration</span>
-                        <span class="cap-tag">Custom logic</span>
-                        <span class="cap-tag">End-to-end testing</span>
-                    </div>
+                    <p class="cap-tag">Platform configuration</p>
+                    <p class="cap-tag">API integration</p>
+                    <p class="cap-tag">Custom logic</p>
+                    <p class="cap-tag">End-to-end testing</p>
                 </div>
             </div>
 
@@ -831,12 +789,10 @@
                 </div>
                 <div class="cap-covers">
                     <p class="cap-covers-label">This includes</p>
-                    <div class="cap-pills">
-                        <span class="cap-tag">Live deployment</span>
-                        <span class="cap-tag">Training</span>
-                        <span class="cap-tag">Documentation</span>
-                        <span class="cap-tag">Ongoing support</span>
-                    </div>
+                    <p class="cap-tag">Live deployment</p>
+                    <p class="cap-tag">Training</p>
+                    <p class="cap-tag">Documentation</p>
+                    <p class="cap-tag">Ongoing support</p>
                 </div>
             </div>
 
@@ -918,8 +874,7 @@
         <p class="eyebrow reveal">Start</p>
         <h2 class="reveal">The first conversation<br>costs nothing.</h2>
         <p class="start-sub reveal">Thirty minutes. We'll map your operation and identify where the right system would make the most impact — no pitch, no pressure, no obligation.</p>
-
-        <!-- TODO: Replace # with your Calendly or Tally booking link -->
+        <!-- TODO: Replace # with your Calendly or Tally booking link e.g. https://calendly.com/jamboflow/discovery -->
         <a href="#" class="btn-primary reveal">
             Start a conversation <span class="arr">→</span>
         </a>
