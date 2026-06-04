@@ -48,14 +48,13 @@
         }
 
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; overflow-x: clip; }
 
         body {
             font-family: 'Inter', sans-serif;
             background: var(--bg);
             color: var(--text);
             -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
         }
 
         /* ─────────────────────────────────────
@@ -564,7 +563,7 @@
         .start-section {
             background: var(--surface);
             padding: 88px 2rem;
-            position: relative; overflow: visible;
+            position: relative; overflow: hidden;
         }
         .start-section::before {
             content: '';
