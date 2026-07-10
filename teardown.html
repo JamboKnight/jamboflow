@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anatomy of a Build — JamboFlow</title>
+    <meta name="description" content="One real engagement, taken apart in public. The presenting problem, what the diagnosis found, the blueprint, the ceiling the tools hit — and what was built past it.">
+    <meta property="og:title" content="Anatomy of a Build — JamboFlow">
+    <meta property="og:description" content="One real engagement, taken apart in public.">
+    <meta property="og:type" content="article">
+    <link rel="icon" href="assets/favicon.ico">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        /* ─────────────────────────────────────
+           TOKENS (mirrors index.html)
+        ───────────────────────────────────── */
+        :root {
+            --bg:        #060606;
+            --surface:   #0D0D0D;
+            --surface-2: #151515;
+            --gold:      #C9963A;
+            --gold-hi:   #DDA94E;
+            --gold-dim:  rgba(201,150,58,0.10);
+            --gold-line: rgba(201,150,58,0.22);
+            --gold-left: rgba(201,150,58,0.35);
+            --cream:     #F0EAE0;
+            --text:      #EAE4DB;
+            --muted:     #908B84; /* meets WCAG AA 4.5:1 on all site backgrounds */
+            --border:    rgba(255,255,255,0.055);
+            --max:       880px;
+            --r:         3px;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; overflow-x: clip; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ─────────────────────────────────────
+           NAV
+        ───────────────────────────────────── */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+            height: 60px;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 2rem;
+            background: rgba(6,6,6,.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        .logo {
+            font-family: 'DM Sans', sans-serif; font-weight: 800;
+            font-size: 1.1rem; letter-spacing: .04em;
+            color: var(--cream); text-decoration: none;
+        }
+        .logo em { color: var(--gold); font-style: normal; }
+        .nav-back {
+            font-size: .81rem; color: var(--muted);
+            text-decoration: none; letter-spacing: .03em;
+            transition: color .16s;
+        }
+        .nav-back:hover { color: var(--cream); }
+
+        /* ─────────────────────────────────────
+           LAYOUT
+        ───────────────────────────────────── */
+        .container { max-width: var(--max); margin: 0 auto; padding: 0 2rem; }
+
+        .eyebrow {
+            display: inline-flex; align-items: center; gap: .5rem;
+            font-size: .67rem; font-weight: 500;
+            letter-spacing: .18em; text-transform: uppercase;
+            color: var(--gold); margin-bottom: 1.875rem;
+        }
+        .eyebrow::before {
+            content: ''; display: block; width: 22px; height: 1px; background: var(--gold);
+        }
+
+        /* ─────────────────────────────────────
+           ARTICLE HERO
+        ───────────────────────────────────── */
+        .article-hero { padding: 150px 0 70px; }
+        .article-hero h1 {
+            font-family: 'DM Sans', sans-serif; font-weight: 800;
+            font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+            line-height: 1.1; letter-spacing: -.03em;
+            color: var(--cream);
+            padding-bottom: .1em;
+            margin-bottom: 1.5rem;
+        }
+        .article-hero h1 em { color: var(--gold); font-style: normal; }
+        .article-lede {
+            font-size: clamp(.95rem, 1.25vw, 1.075rem);
+            font-weight: 300; color: var(--muted);
+            max-width: 560px; line-height: 1.8;
+        }
+        .article-meta {
+            display: flex; flex-wrap: wrap; gap: 2.5rem;
+            margin-top: 2.75rem; padding-top: 1.75rem;
+            border-top: 1px solid var(--border);
+        }
+        .meta-item .meta-label {
+            font-size: .64rem; font-weight: 500; letter-spacing: .14em;
+            text-transform: uppercase; color: var(--muted);
+            margin-bottom: .3rem;
+        }
+        .meta-item .meta-val {
+            font-family: 'DM Sans', sans-serif; font-weight: 700;
+            font-size: .95rem; color: var(--cream);
+        }
+        .meta-item .meta-val em { color: var(--gold); font-style: normal; }
+
+        /* ─────────────────────────────────────
+           GEO DIVIDER (mirrors index)
+        ───────────────────────────────────── */
+        .geo-rule {
+            width: 100%; height: 1px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--gold) 0, var(--gold) 5px,
+                transparent 5px, transparent 13px,
+                rgba(201,150,58,.3) 13px, rgba(201,150,58,.3) 16px,
+                transparent 16px, transparent 26px
+            );
+            opacity: .28;
+        }
+
+        /* ─────────────────────────────────────
+           NUMBERED SECTIONS
+        ───────────────────────────────────── */
+        .td-section { padding: 70px 0; }
+        .td-section.alt { background: var(--surface); }
+
+        .td-head {
+            display: flex; align-items: baseline; gap: 1.25rem;
+            margin-bottom: 1.75rem;
+        }
+        .td-n {
+            font-family: 'DM Sans', sans-serif; font-weight: 800;
+            font-size: 1rem; color: var(--gold); opacity: .35;
+            letter-spacing: .04em;
+        }
+        .td-section h2 {
+            font-family: 'DM Sans', sans-serif; font-weight: 800;
+            font-size: clamp(1.5rem, 3vw, 2.1rem);
+            line-height: 1.15; letter-spacing: -.02em;
+            color: var(--cream);
+            padding-bottom: .05em;
+        }
+        .td-section h2 em { color: var(--gold); font-style: normal; }
+
+        .td-body {
+            font-size: .95rem; font-weight: 300;
+            color: var(--muted); line-height: 1.85;
+            max-width: 640px;
+        }
+        .td-body + .td-body { margin-top: 1.25rem; }
+        .td-body strong { color: var(--text); font-weight: 400; }
+
+        /* Blueprint callout — brand's signature corner-accent mark */
+        .callout {
+            position: relative;
+            border: 1px solid var(--gold-line);
+            padding: 2rem 2.5rem;
+            margin: 2.5rem 0 0;
+        }
+        .callout::before {
+            content: ''; position: absolute;
+            top: -2px; left: -2px;
+            width: 18px; height: 18px;
+            border-top: 2px solid var(--gold);
+            border-left: 2px solid var(--gold);
+        }
+        .callout::after {
+            content: ''; position: absolute;
+            bottom: -2px; right: -2px;
+            width: 18px; height: 18px;
+            border-bottom: 2px solid var(--gold);
+            border-right: 2px solid var(--gold);
+        }
+        .callout p {
+            font-family: 'DM Sans', sans-serif; font-weight: 700;
+            font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+            line-height: 1.4; letter-spacing: -.01em;
+            color: var(--cream);
+        }
+        .callout p em { color: var(--gold); font-style: normal; }
+
+        /* ─────────────────────────────────────
+           BLUEPRINT DIAGRAM
+        ───────────────────────────────────── */
+        .blueprint {
+            margin-top: 2.75rem;
+            border: 1px solid var(--gold-line);
+            background: var(--bg);
+            position: relative;
+        }
+        .blueprint::before {
+            content: ''; position: absolute;
+            top: -2px; left: -2px;
+            width: 18px; height: 18px;
+            border-top: 2px solid var(--gold);
+            border-left: 2px solid var(--gold);
+        }
+        .blueprint::after {
+            content: ''; position: absolute;
+            bottom: -2px; right: -2px;
+            width: 18px; height: 18px;
+            border-bottom: 2px solid var(--gold);
+            border-right: 2px solid var(--gold);
+        }
+        .blueprint-label {
+            font-size: .64rem; font-weight: 500; letter-spacing: .2em;
+            text-transform: uppercase; color: var(--gold);
+            padding: 1.25rem 1.5rem 0;
+        }
+        .blueprint svg { display: block; width: 100%; height: auto; }
+        .blueprint-caption {
+            font-size: .78rem; color: var(--muted); line-height: 1.6;
+            padding: 0 1.5rem 1.25rem;
+            max-width: 560px;
+        }
+
+        /* ─────────────────────────────────────
+           CEILING LIST
+        ───────────────────────────────────── */
+        .ceiling-list { margin-top: 2.25rem; list-style: none; }
+        .ceiling-list li {
+            display: grid; grid-template-columns: 148px 1fr;
+            gap: 2rem; padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border);
+            align-items: start;
+        }
+        .ceiling-list li:first-child { border-top: 1px solid var(--border); }
+        .ceiling-tool {
+            font-family: 'DM Sans', sans-serif; font-weight: 700;
+            font-size: .9rem; color: var(--cream); line-height: 1.4;
+        }
+        .ceiling-why {
+            font-size: .875rem; color: var(--muted); line-height: 1.7;
+        }
+        .ceiling-why .arr { color: var(--gold); font-weight: 500; margin-right: .3rem; }
+
+        /* ─────────────────────────────────────
+           RESULT STATS
+        ───────────────────────────────────── */
+        .result-stats {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 2rem; margin-top: 2.5rem;
+        }
+        .result-stat {
+            padding-top: 1.25rem;
+            border-top: 2px solid rgba(201,150,58,0.55);
+        }
+        .result-stat .stat-val {
+            font-family: 'DM Sans', sans-serif; font-weight: 800;
+            font-size: 1.4rem; color: var(--cream); line-height: 1.1;
+            letter-spacing: -.02em;
+        }
+        .result-stat .stat-val em { color: var(--gold); font-style: normal; }
+        .result-stat .stat-label {
+            font-size: .78rem; color: var(--muted);
+            margin-top: .45rem; line-height: 1.5;
+        }
+
+        /* ─────────────────────────────────────
+           CTA
+        ───────────────────────────────────── */
+        .td-cta { padding: 80px 0 90px; }
+        .td-cta h2 {
+            font-family: 'DM Sans', sans-serif; font-weight: 800;
+            font-size: clamp(1.7rem, 3.4vw, 2.5rem);
+            line-height: 1.15; letter-spacing: -.025em;
+            color: var(--cream); margin-bottom: 1rem;
+            padding-bottom: .05em;
+        }
+        .td-cta h2 em { color: var(--gold); font-style: normal; }
+        .td-cta-sub {
+            font-size: .95rem; font-weight: 300; color: var(--muted);
+            max-width: 460px; line-height: 1.78; margin-bottom: 2.25rem;
+        }
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: .45rem;
+            font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: .93rem;
+            background: var(--gold); color: var(--bg);
+            padding: .875rem 1.875rem; border-radius: var(--r);
+            text-decoration: none;
+            transition: background .16s, transform .14s;
+        }
+        .btn-primary:hover { background: var(--gold-hi); transform: translateY(-1px); }
+        .btn-primary .arr { display: inline-block; transition: transform .16s; }
+        .btn-primary:hover .arr { transform: translateX(3px); }
+
+        /* ─────────────────────────────────────
+           FOOTER (mirrors index)
+        ───────────────────────────────────── */
+        footer {
+            background: var(--bg);
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border);
+        }
+        .footer-inner {
+            max-width: 1160px; margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            align-items: center; gap: 3rem;
+        }
+        .footer-logo {
+            font-family: 'DM Sans', sans-serif; font-weight: 800;
+            font-size: 1rem; color: var(--cream); text-decoration: none;
+            display: block;
+        }
+        .footer-logo em { color: var(--gold); font-style: normal; }
+        .footer-tagline {
+            font-family: 'DM Sans', sans-serif; font-weight: 500;
+            font-size: .84rem; color: var(--text);
+            margin-top: .4rem; letter-spacing: .04em;
+        }
+        .footer-links { display: flex; gap: 2rem; list-style: none; }
+        .footer-links a {
+            font-size: .78rem; color: var(--muted);
+            text-decoration: none; letter-spacing: .02em;
+            transition: color .16s;
+        }
+        .footer-links a:hover { color: var(--cream); }
+        .footer-copy { font-size: .72rem; color: var(--muted); white-space: nowrap; }
+
+        /* ─────────────────────────────────────
+           SCROLL REVEAL
+        ───────────────────────────────────── */
+        @media (prefers-reduced-motion: no-preference) {
+            .reveal {
+                opacity: 0; transform: translateY(16px);
+                transition: opacity .55s ease, transform .55s ease;
+            }
+            .reveal.in { opacity: 1; transform: none; }
+        }
+
+        /* ─────────────────────────────────────
+           MOBILE
+        ───────────────────────────────────── */
+        @media (max-width: 768px) {
+            nav { padding: 0 1.25rem; }
+            .container { padding: 0 1.25rem; }
+            .article-hero { padding: 110px 0 55px; }
+            .article-meta { gap: 1.5rem; }
+            .td-section { padding: 55px 0; }
+            .callout { padding: 1.5rem 1.25rem; }
+            .ceiling-list li { grid-template-columns: 1fr; gap: .5rem; }
+            .result-stats { grid-template-columns: 1fr; gap: 1.5rem; }
+            footer { padding: 2.5rem 1.25rem; }
+            .footer-inner { grid-template-columns: 1fr; gap: 1.75rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="/" class="logo">Jambo<em>Flow</em></a>
+    <a href="/#evidence" class="nav-back">← Back to Evidence</a>
+</nav>
+
+<main>
+
+<!-- ─────────────── ARTICLE HERO ─────────────── -->
+<div class="article-hero">
+    <div class="container">
+        <p class="eyebrow">Anatomy of a Build</p>
+        <h1>The process <em>three platforms</em> couldn't handle.</h1>
+        <p class="article-lede">
+            One real engagement, taken apart in public. What the client asked for, what the diagnosis actually found, where every off-the-shelf tool hit its ceiling — and what got built past it.
+        </p>
+        <div class="article-meta">
+            <div class="meta-item">
+                <p class="meta-label">Engagement</p>
+                <p class="meta-val">Build 03</p>
+            </div>
+            <div class="meta-item">
+                <p class="meta-label">Systems connected</p>
+                <p class="meta-val"><em>4</em></p>
+            </div>
+            <div class="meta-item">
+                <p class="meta-label">Prior failed attempts</p>
+                <p class="meta-val"><em>2</em></p>
+            </div>
+            <div class="meta-item">
+                <p class="meta-label">Human input since launch</p>
+                <p class="meta-val"><em>Zero</em></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="geo-rule"></div>
+
+<!-- ─────────────── 01 PRESENTING PROBLEM ─────────────── -->
+<section class="td-section">
+    <div class="container">
+        <div class="td-head">
+            <p class="td-n">01</p>
+            <h2>The presenting problem</h2>
+        </div>
+        <p class="td-body">
+            The client came to us with what sounded like a connection problem: four separate systems — their CRM, their scheduling platform, their invoicing tool, and their operations database — needed to pass work between them in a specific sequence. Data entered once should flow all the way through. Instead, a team member was re-keying the same information into each system by hand, several times a day.
+        </p>
+        <p class="td-body">
+            Two previous solutions had already been tried and abandoned. Both were built on integration platforms. Both worked in the demo. Neither survived contact with the real process.
+        </p>
+    </div>
+</section>
+
+<div class="geo-rule"></div>
+
+<!-- ─────────────── 02 DIAGNOSIS ─────────────── -->
+<section class="td-section alt">
+    <div class="container">
+        <div class="td-head">
+            <p class="td-n">02</p>
+            <h2>What the diagnosis found</h2>
+        </div>
+        <p class="td-body">
+            The presenting problem was "connect four systems." The real problem was different — and it's why the previous attempts failed. The sequence wasn't linear. <strong>Depending on the state of the record, the flow branched, waited, or reversed.</strong> A booking could change after the invoice existed. A record could enter the sequence mid-way. The previous solutions assumed a straight line; the actual process is a decision tree.
+        </p>
+        <p class="td-body">
+            This is the pattern we see constantly: the integration isn't hard because the systems are hard to connect. It's hard because <strong>the business logic between the systems was never written down anywhere</strong> — it lived in the head of the person doing the re-keying. The diagnosis stage extracted that logic and made it explicit before a single connection was built.
+        </p>
+        <div class="callout">
+            <p>"The presenting problem is rarely the real one. Here, 'connect our tools' was actually <em>'our process has rules nobody has ever written down.'</em>"</p>
+        </div>
+    </div>
+</section>
+
+<div class="geo-rule"></div>
+
+<!-- ─────────────── 03 BLUEPRINT ─────────────── -->
+<section class="td-section">
+    <div class="container">
+        <div class="td-head">
+            <p class="td-n">03</p>
+            <h2>The blueprint</h2>
+        </div>
+        <p class="td-body">
+            Once the logic was explicit, the architecture became obvious: don't chain the four systems to each other. Chain nothing. <strong>Put the logic in one place</strong> — a central orchestration layer that owns the rules — and let each system talk only to it. Every branch, wait, and reversal lives in the layer, not in the connections.
+        </p>
+
+        <div class="blueprint">
+            <p class="blueprint-label">Architecture — as presented to the client</p>
+            <svg viewBox="0 0 760 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Blueprint diagram: four systems — CRM, Scheduling, Invoicing, and Operations Database — each connected only to a central orchestration layer, which holds the process logic. No system connects directly to another.">
+                <defs>
+                    <marker id="dot" viewBox="0 0 8 8" refX="4" refY="4" markerWidth="5" markerHeight="5">
+                        <circle cx="4" cy="4" r="3" fill="#C9963A"/>
+                    </marker>
+                </defs>
+
+                <!-- connection lines: each system -> core only -->
+                <g stroke="#C9963A" stroke-opacity=".45" stroke-width="1" stroke-dasharray="4 5">
+                    <line x1="170" y1="105" x2="320" y2="185"/>
+                    <line x1="590" y1="105" x2="440" y2="185"/>
+                    <line x1="170" y1="330" x2="320" y2="250"/>
+                    <line x1="590" y1="330" x2="440" y2="250"/>
+                </g>
+
+                <!-- four system nodes -->
+                <g font-family="Inter, sans-serif" font-size="13" font-weight="400">
+                    <rect x="60" y="72" width="150" height="52" fill="none" stroke="#C9963A" stroke-opacity=".5"/>
+                    <text x="135" y="103" fill="#EAE4DB" text-anchor="middle">CRM</text>
+
+                    <rect x="550" y="72" width="150" height="52" fill="none" stroke="#C9963A" stroke-opacity=".5"/>
+                    <text x="625" y="103" fill="#EAE4DB" text-anchor="middle">Scheduling</text>
+
+                    <rect x="60" y="298" width="150" height="52" fill="none" stroke="#C9963A" stroke-opacity=".5"/>
+                    <text x="135" y="329" fill="#EAE4DB" text-anchor="middle">Invoicing</text>
+
+                    <rect x="550" y="298" width="150" height="52" fill="none" stroke="#C9963A" stroke-opacity=".5"/>
+                    <text x="625" y="329" fill="#EAE4DB" text-anchor="middle">Ops Database</text>
+                </g>
+
+                <!-- central orchestration core -->
+                <rect x="290" y="170" width="180" height="86" fill="rgba(201,150,58,0.08)" stroke="#C9963A" stroke-width="1.5"/>
+                <!-- corner accents on core -->
+                <path d="M 288 182 L 288 168 L 302 168" fill="none" stroke="#C9963A" stroke-width="2.5"/>
+                <path d="M 472 244 L 472 258 L 458 258" fill="none" stroke="#C9963A" stroke-width="2.5"/>
+                <text x="380" y="206" font-family="'DM Sans', sans-serif" font-size="14" font-weight="700" fill="#F0EAE0" text-anchor="middle">Orchestration layer</text>
+                <text x="380" y="228" font-family="Inter, sans-serif" font-size="11.5" fill="#908B84" text-anchor="middle">owns all process logic</text>
+
+                <!-- annotation -->
+                <text x="380" y="395" font-family="Inter, sans-serif" font-size="11.5" fill="#908B84" text-anchor="middle">No system connects directly to another. Every rule lives in one place.</text>
+            </svg>
+            <p class="blueprint-caption">
+                The client saw this diagram — and understood the logic — before anything was built. That's the standard: nothing gets built until both sides are confident it solves the right problem.
+            </p>
+        </div>
+    </div>
+</section>
+
+<div class="geo-rule"></div>
+
+<!-- ─────────────── 04 THE CEILING ─────────────── -->
+<section class="td-section alt">
+    <div class="container">
+        <div class="td-head">
+            <p class="td-n">04</p>
+            <h2>Where the tools <em>hit their ceiling</em></h2>
+        </div>
+        <p class="td-body">
+            We always start with the best tools available — building custom where a tool would do is its own kind of failure. Here's exactly where each off-the-shelf approach stopped short, and why:
+        </p>
+        <ul class="ceiling-list">
+            <li>
+                <p class="ceiling-tool">Integration platform, attempt one</p>
+                <p class="ceiling-why"><span class="arr">→</span>Could pass data forward, but had no concept of a record moving backward through the sequence. A changed booking after invoicing silently created duplicates.</p>
+            </li>
+            <li>
+                <p class="ceiling-tool">Integration platform, attempt two</p>
+                <p class="ceiling-why"><span class="arr">→</span>Handled more branches, but every branch was a separate workflow. The rules ended up scattered across dozens of them — impossible to reason about, impossible to change safely.</p>
+            </li>
+            <li>
+                <p class="ceiling-tool">Native integrations</p>
+                <p class="ceiling-why"><span class="arr">→</span>Each pair of systems had a native connector for the simple case. None supported the client's sequence, and chaining them multiplied the failure points.</p>
+            </li>
+        </ul>
+        <div class="callout">
+            <p>The ceiling wasn't any single tool's fault. <em>The process itself was the thing no platform had a shape for.</em></p>
+        </div>
+    </div>
+</section>
+
+<div class="geo-rule"></div>
+
+<!-- ─────────────── 05 WHAT WAS BUILT ─────────────── -->
+<section class="td-section">
+    <div class="container">
+        <div class="td-head">
+            <p class="td-n">05</p>
+            <h2>What was built past it</h2>
+        </div>
+        <p class="td-body">
+            The orchestration layer was built from the ground up: custom logic that connects to each of the four systems through their APIs and owns the entire decision tree. Because every rule lives in one place, the system can do what no chained integration could — <strong>hold state, branch on it, wait on it, and reverse cleanly</strong> when the real world changes its mind.
+        </p>
+        <p class="td-body">
+            And because we don't hand over black boxes: the client received documentation of every rule the system enforces — the same rules that used to live in one employee's head, now written down, versioned, and changeable on request.
+        </p>
+    </div>
+</section>
+
+<div class="geo-rule"></div>
+
+<!-- ─────────────── 06 THE RESULT ─────────────── -->
+<section class="td-section alt">
+    <div class="container">
+        <div class="td-head">
+            <p class="td-n">06</p>
+            <h2>The result</h2>
+        </div>
+        <p class="td-body">
+            It has run continuously, without human input, since the day it launched. The client has not touched it — not because they can't, but because they haven't needed to.
+        </p>
+        <div class="result-stats">
+            <div class="result-stat">
+                <p class="stat-val">Zero<em>.</em></p>
+                <p class="stat-label">Manual re-keying since launch. The job the system replaced no longer exists.</p>
+            </div>
+            <div class="result-stat">
+                <p class="stat-val">One<em> place.</em></p>
+                <p class="stat-label">Where every process rule lives. Changing the process is now a request, not a rebuild.</p>
+            </div>
+            <div class="result-stat">
+                <p class="stat-val">100<em>%</em></p>
+                <p class="stat-label">Uptime on the process since go-live. Continuous operation, no intervention.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="geo-rule"></div>
+
+<!-- ─────────────── CTA ─────────────── -->
+<section class="td-cta">
+    <div class="container">
+        <h2>Your operation has a version<br>of this problem <em>too.</em></h2>
+        <p class="td-cta-sub">Thirty minutes. We'll map your operation and identify where the right system would make the most impact — no pitch, no pressure, no obligation.</p>
+        <a href="https://forms.zohopublic.com/infojamb1/form/JamboFlowDiscoveryCallRequest/formperma/Dzxq_atiS6HRFIcpj4px3CKDWouV9UOHA_o1dYLACps" target="_blank" rel="noopener noreferrer" class="btn-primary">
+            Start a conversation <span class="arr">→</span>
+        </a>
+    </div>
+</section>
+
+</main>
+
+<!-- ─────────────── FOOTER ─────────────── -->
+<footer>
+    <div class="footer-inner">
+        <div>
+            <a href="/" class="footer-logo">Jambo<em>Flow</em></a>
+            <p class="footer-tagline">Jambo. From East Africa, for the world.</p>
+        </div>
+        <ul class="footer-links">
+            <li><a href="/#capabilities">Capabilities</a></li>
+            <li><a href="/#standard">The Standard</a></li>
+            <li><a href="/#evidence">Evidence</a></li>
+            <li><a href="/#start">Start</a></li>
+        </ul>
+        <p class="footer-copy">© 2026 JamboFlow.</p>
+    </div>
+</footer>
+
+<script defer>
+    const io = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
