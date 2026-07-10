@@ -130,6 +130,18 @@ Everything about how the agent thinks lives in `brain/system-prompt.md`.
 After editing it, redeploy the worker (`npx wrangler deploy`) — the brain is
 bundled into the worker at deploy time.
 
+**Reading the real conversations**
+Every visitor exchange is logged (anonymously — conversation ID, country,
+messages) to a D1 database, as disclosed on the page. From `agent/tools/`:
+```powershell
+.\review.ps1              # transcripts, last 7 days, newest first
+.\review.ps1 -Days 1      # today's
+.\review.ps1 -Funnel      # counts: conversations, diagnoses reached, rate-limit hits
+```
+Read the first ten real conversations before driving traffic — if an answer
+would make you wince in front of a client, tune `brain/system-prompt.md`
+and redeploy.
+
 **Watching usage**
 - Anthropic console → Usage shows spend per day.
 - Cloudflare dash → Workers → jamboflow-diagnostic shows request counts.

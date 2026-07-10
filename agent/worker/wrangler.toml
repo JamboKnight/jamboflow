@@ -22,4 +22,12 @@ GLOBAL_DAILY_LIMIT = "600"
 binding = "RATELIMIT"
 id = "6f77e2d2161745babceb9cb68f870e4e"
 
+# Conversation transcripts. Schema: schema.sql (apply with
+# npx wrangler d1 execute jamboflow-diagnostic-logs --remote --file schema.sql)
+# Read them with: ..\tools\review.ps1
+[[d1_databases]]
+binding = "DB"
+database_name = "jamboflow-diagnostic-logs"
+database_id = "60975242-e6eb-4c01-8245-46c5aa8ec958"
+
 # Secret (never goes in this file): npx wrangler secret put ANTHROPIC_API_KEY

@@ -27,7 +27,7 @@ const DEFAULTS = {
 const cfg = (env, key) => env[key] || DEFAULTS[key];
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const origin = request.headers.get("Origin") || "";
     const cors = corsHeaders(origin, env);
 
@@ -43,13 +43,22 @@ export default {
       return json({ error: "Origin not allowed" }, 403, cors);
     }
 
-    const messages = await validateBody(request);
-    if (typeof messages === "string") {
-      return json({ error: messages }, 400, cors);
+    const parsed = await validateBody(request);
+    if (typeof parsed === "string") {
+      return json({ error: parsed }, 400, cors);
     }
+    const { messages, convoId } = parsed;
+    const country = request.cf?.country || null;
 
     const limited = await checkRateLimit(request, env);
-    if (limited) return json({ error: limited }, 429, cors);
+    if (limited) {
+      ctx.waitUntil(logTurn(env, {
+        convoId, country, kind: "rate_limited",
+        userMsg: messages[messages.length - 1].content,
+        assistantMsg: null, msgCount: messages.length,
+      }));
+      return json({ error: limited }, 429, cors);
+    }
 
     const upstream = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
@@ -77,7 +86,15 @@ export default {
       );
     }
 
-    return new Response(upstream.body, {
+    // Tee the stream: one branch to the visitor, one assembled for the log.
+    const [toClient, toLog] = upstream.body.tee();
+    ctx.waitUntil(logExchange(env, toLog, {
+      convoId, country,
+      userMsg: messages[messages.length - 1].content,
+      msgCount: messages.length,
+    }));
+
+    return new Response(toClient, {
       headers: {
         ...cors,
         "content-type": "text/event-stream",
@@ -86,6 +103,52 @@ export default {
     });
   },
 };
+
+async function logExchange(env, stream, meta) {
+  let assistantMsg = "";
+  try {
+    const reader = stream.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const events = buffer.split("\n\n");
+      buffer = events.pop();
+      for (const evt of events) {
+        for (const line of evt.split("\n")) {
+          if (!line.startsWith("data: ")) continue;
+          try {
+            const data = JSON.parse(line.slice(6));
+            if (data.type === "content_block_delta" && data.delta?.text) {
+              assistantMsg += data.delta.text;
+            }
+          } catch {}
+        }
+      }
+    }
+  } catch (e) {
+    console.error("log stream read failed", e);
+  }
+  await logTurn(env, {
+    ...meta,
+    kind: "exchange",
+    assistantMsg,
+    diagnosis: assistantMsg.includes("What you came in with") ? 1 : 0,
+  });
+}
+
+async function logTurn(env, { convoId, country, kind, userMsg, assistantMsg, msgCount, diagnosis = 0 }) {
+  if (!env.DB) return; // logging is best-effort; never break the conversation
+  try {
+    await env.DB.prepare(
+      "INSERT INTO turns (convo_id, country, kind, user_msg, assistant_msg, msg_count, diagnosis) VALUES (?, ?, ?, ?, ?, ?, ?)"
+    ).bind(convoId, country, kind, userMsg, assistantMsg, msgCount, diagnosis).run();
+  } catch (e) {
+    console.error("D1 insert failed", e);
+  }
+}
 
 function corsHeaders(origin, env) {
   const allowed = cfg(env, "ALLOWED_ORIGINS")
@@ -132,7 +195,12 @@ async function validateBody(request) {
   if (messages[messages.length - 1].role !== "user") {
     return "The last message must be from the user.";
   }
-  return messages.map((m) => ({ role: m.role, content: m.content }));
+  const rawId = typeof body.conversation_id === "string" ? body.conversation_id : "";
+  const convoId = /^[0-9a-fA-F-]{8,64}$/.test(rawId) ? rawId : "unknown";
+  return {
+    messages: messages.map((m) => ({ role: m.role, content: m.content })),
+    convoId,
+  };
 }
 
 async function checkRateLimit(request, env) {
