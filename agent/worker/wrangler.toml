@@ -1,0 +1,25 @@
+name = "jamboflow-diagnostic"
+main = "worker.js"
+compatibility_date = "2026-06-01"
+preview_urls = false
+
+# Lets worker.js import the shared brain file as a plain string.
+rules = [
+  { type = "Text", globs = ["**/*.md"], fallthrough = true }
+]
+
+[vars]
+# Origins allowed to call this worker, comma-separated.
+ALLOWED_ORIGINS = "https://jamboflow.com,https://www.jamboflow.com"
+# Runtime model. Haiku 4.5 ≈ 3–5¢ per full conversation.
+# Upgrade to "claude-sonnet-5" later if you want a sharper diagnostician.
+MODEL = "claude-haiku-4-5-20251001"
+# Per-visitor and site-wide daily caps (requests, not conversations).
+IP_DAILY_LIMIT = "40"
+GLOBAL_DAILY_LIMIT = "600"
+
+[[kv_namespaces]]
+binding = "RATELIMIT"
+id = "6f77e2d2161745babceb9cb68f870e4e"
+
+# Secret (never goes in this file): npx wrangler secret put ANTHROPIC_API_KEY
