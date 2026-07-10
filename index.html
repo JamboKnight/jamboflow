@@ -463,7 +463,13 @@
             margin-bottom: 1.5rem;
         }
 
-        .evidence-more { margin-top: 2.5rem; }
+        .evidence-more {
+            margin-top: 2.5rem;
+            display: flex; flex-direction: column;
+            align-items: flex-start; gap: .9rem;
+        }
+        .btn-text-gold { color: var(--gold); }
+        .btn-text-gold:hover { color: var(--gold-hi); }
 
         .evidence-result {
             font-size: .875rem; color: var(--text);
@@ -907,6 +913,7 @@
 
         <div class="evidence-more reveal">
             <a href="teardown.html" class="btn-text">Read the full teardown of build 03 — the diagnosis, the blueprint, and the ceiling the tools hit <span class="arr">→</span></a>
+            <a href="diagnose.html" class="btn-text btn-text-gold">Or don't take our word for it — run a first-pass diagnosis on your own operation, right now <span class="arr">→</span></a>
         </div>
     </div>
 </section>

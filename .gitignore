@@ -1,1 +1,4 @@
 CLAUDE.md
+agent/worker/dist/
+agent/worker/node_modules/
+agent/worker/.wrangler/
