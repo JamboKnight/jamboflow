@@ -449,7 +449,7 @@
         wrap.appendChild(body);
         transcript.appendChild(wrap);
         transcript.scrollTop = transcript.scrollHeight;
-        wrap.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        transcript.scrollIntoView({ behavior: "smooth", block: "end" });
         return body;
     }
     function addSystem(html) {
@@ -461,7 +461,7 @@
         wrap.appendChild(body);
         transcript.appendChild(wrap);
         transcript.scrollTop = transcript.scrollHeight;
-        wrap.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        transcript.scrollIntoView({ behavior: "smooth", block: "end" });
     }
 
     // ── Streaming ───────────────────────────────────────────
