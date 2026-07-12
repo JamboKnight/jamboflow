@@ -21,8 +21,8 @@ const MAX_TOKENS = 1024; // per reply
 const DEFAULTS = {
   ALLOWED_ORIGINS: "https://jamboflow.com,https://www.jamboflow.com",
   MODEL: "claude-haiku-4-5-20251001",
-  IP_DAILY_LIMIT: "40",
-  GLOBAL_DAILY_LIMIT: "600",
+  IP_DAILY_LIMIT: "10",
+  GLOBAL_DAILY_LIMIT: "200",
 };
 const cfg = (env, key) => env[key] || DEFAULTS[key];
 
